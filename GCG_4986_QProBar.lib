@@ -1,0 +1,27 @@
+Program.Sub.ScreenSU.Start
+Gui.FormQuoteUploadProgress..Create
+Gui.FormQuoteUploadProgress..Size(7860,1365)
+Gui.FormQuoteUploadProgress..MinX(0)
+Gui.FormQuoteUploadProgress..MinY(0)
+Gui.FormQuoteUploadProgress..Position(0,0)
+Gui.FormQuoteUploadProgress..BackColor(-2147483633)
+Gui.FormQuoteUploadProgress..MousePointer(0)
+Gui.FormQuoteUploadProgress..Event(UnLoad,FormQuoteUploadProgress_UnLoad)
+Gui.FormQuoteUploadProgress..Caption("Quote Upload Progress")
+Gui.FormQuoteUploadProgress..MaxButton(False)
+Gui.FormQuoteUploadProgress..MinButton(False)
+Gui.FormQuoteUploadProgress..Sizeable(False)
+Gui.FormQuoteUploadProgress.proBar1.Create(ProgressBar)
+Gui.FormQuoteUploadProgress.proBar1.Size(6990,165)
+Gui.FormQuoteUploadProgress.proBar1.Position(300,240)
+Gui.FormQuoteUploadProgress.lbl1.Create(Label,"Current",True,765,255,0,285,510,True,0,"Arial",8,-2147483633,0)
+Gui.FormQuoteUploadProgress.txtCurrentToken.Create(TextBox,"",True,6180,300,0,1125,435,True,0,"Arial",8,-2147483643,1)
+Program.Sub.ScreenSU.End
+
+Program.Sub.Preflight.Start
+Program.Sub.Preflight.End
+
+Program.Sub.FormQuoteUploadProgress_UnLoad.Start
+v.Global.bForcedToStop.Set(True)
+gui.FormQuoteUploadProgress..Visible(False)
+Program.Sub.FormQuoteUploadProgress_UnLoad.End
