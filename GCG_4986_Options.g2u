@@ -1,0 +1,1444 @@
+Program.Sub.ScreenSU.Start
+Gui.Form..Create
+Gui.Form..Caption("Estmator Maintenance Options 4986 21.06.25.00")
+Gui.Form..Size(16995,8865)
+Gui.Form..MinX(0)
+Gui.Form..MinY(0)
+Gui.Form..Position(0,0)
+Gui.Form..BackColor(16777215)
+Gui.Form..MousePointer(0)
+Gui.Form..Event(UnLoad,Form_UnLoad)
+Gui.Form..ContextMenuCreate("PL")
+Gui.Form..ContextMenuAddItem("PL","SelectAll",0,"Select All")
+Gui.Form..ContextMenuAddItem("PL","DeSelectAll",0,"Deselect All")
+Gui.Form..ContextMenuAddItem("PL","AddPL",0,"Add PL")
+Gui.Form..ContextMenuSetItemEventHandler("PL","SelectAll","Select_All")
+Gui.Form..ContextMenuSetItemEventHandler("PL","DeSelectAll","DeSelect_All")
+Gui.Form..ContextMenuSetItemEventHandler("PL","AddPL","AddPL")
+Gui.Form.framePartNumbering.Create(Frame)
+Gui.Form.framePartNumbering.Size(7395,1665)
+Gui.Form.framePartNumbering.Position(90,1275)
+Gui.Form.framePartNumbering.Caption("Part Numbering Method")
+Gui.Form.framePartNumbering.BackColor(16777215)
+Gui.Form.optManual.Create(Option)
+Gui.Form.optManual.Size(7200,255)
+Gui.Form.optManual.Position(120,300)
+Gui.Form.optManual.Parent("framePartNumbering")
+Gui.Form.optManual.Caption("Manual Numbers")
+Gui.Form.optManual.BackColor(16777215)
+Gui.Form.optAuto.Create(Option)
+Gui.Form.optAuto.Size(7200,255)
+Gui.Form.optAuto.Position(120,600)
+Gui.Form.optAuto.Parent("framePartNumbering")
+Gui.Form.optAuto.Caption("Auto Number")
+Gui.Form.optAuto.BackColor(16777215)
+Gui.Form.optCustom.Create(Option)
+Gui.Form.optCustom.Size(1950,255)
+Gui.Form.optCustom.Position(120,900)
+Gui.Form.optCustom.Parent("framePartNumbering")
+Gui.Form.optCustom.Caption("Custom Numbering")
+Gui.Form.optCustom.BackColor(16777215)
+Gui.Form.optPNG.Create(Option)
+Gui.Form.optPNG.Size(7200,255)
+Gui.Form.optPNG.Position(120,1200)
+Gui.Form.optPNG.Parent("framePartNumbering")
+Gui.Form.optPNG.Caption("Part Number Generator")
+Gui.Form.optPNG.BackColor(16777215)
+Gui.Form.txtLibFile.Create(TextBox,"",True,3690,300,0,3165,870,True,0,"Arial",8,-2147483643,1)
+Gui.Form.txtLibFile.Parent("framePartNumbering")
+Gui.Form.cmdBrowseLibFile.Create(Button)
+Gui.Form.cmdBrowseLibFile.Size(405,330)
+Gui.Form.cmdBrowseLibFile.Position(6900,855)
+Gui.Form.cmdBrowseLibFile.Parent("framePartNumbering")
+Gui.Form.cmdBrowseLibFile.Caption("^")
+Gui.Form.cmdBrowseLibFile.Event(Click,cmdBrowseLibFile_Click)
+Gui.Form.lbl1.Create(Label,"Lib File",True,780,255,0,2355,960,True,0,"Arial",8,16777215,0)
+Gui.Form.lbl1.Parent("framePartNumbering")
+Gui.Form.frameForced.Create(Frame)
+Gui.Form.frameForced.Size(7395,1050)
+Gui.Form.frameForced.Position(90,225)
+Gui.Form.frameForced.Caption("Forced Options")
+Gui.Form.frameForced.BackColor(16777215)
+Gui.Form.chkBomComplete.Create(CheckBox)
+Gui.Form.chkBomComplete.Enabled(False)
+Gui.Form.chkBomComplete.Size(1920,360)
+Gui.Form.chkBomComplete.Position(105,285)
+Gui.Form.chkBomComplete.Parent("frameForced")
+Gui.Form.chkBomComplete.Caption("Use BOM Complete")
+Gui.Form.chkBomComplete.Value(1)
+Gui.Form.chkBomComplete.BackColor(16777215)
+Gui.Form.chkRouterComplete.Create(CheckBox)
+Gui.Form.chkRouterComplete.Enabled(False)
+Gui.Form.chkRouterComplete.Size(2145,360)
+Gui.Form.chkRouterComplete.Position(105,645)
+Gui.Form.chkRouterComplete.Parent("frameForced")
+Gui.Form.chkRouterComplete.Caption("Use Router Complete")
+Gui.Form.chkRouterComplete.Value(1)
+Gui.Form.chkRouterComplete.BackColor(16777215)
+Gui.Form.cmdResetRouterUpload.Create(Button)
+Gui.Form.cmdResetRouterUpload.Size(2985,375)
+Gui.Form.cmdResetRouterUpload.Position(4305,585)
+Gui.Form.cmdResetRouterUpload.Parent("frameForced")
+Gui.Form.cmdResetRouterUpload.Caption("Reset Router Upload Registry")
+Gui.Form.cmdResetRouterUpload.Event(Click,cmdResetRouterUpload_Click)
+Gui.Form.cmdResetRouterUpload.Visible(False)
+Gui.Form.txtCurrentRouterRegValue.Create(TextBox,"",False,2235,300,0,4320,255,True,0,"Arial",8,-2147483643,1)
+Gui.Form.txtCurrentRouterRegValue.Parent("frameForced")
+Gui.Form.cmdReadRouterRegValue.Create(Button)
+Gui.Form.cmdReadRouterRegValue.Size(675,375)
+Gui.Form.cmdReadRouterRegValue.Position(6600,210)
+Gui.Form.cmdReadRouterRegValue.Parent("frameForced")
+Gui.Form.cmdReadRouterRegValue.Caption("Refresh")
+Gui.Form.cmdReadRouterRegValue.Event(Click,cmdReadRouterRegValue_Click)
+Gui.Form.cmdReadRouterRegValue.Visible(False)
+Gui.Form.framePL.Create(Frame)
+Gui.Form.framePL.Size(9195,4260)
+Gui.Form.framePL.Position(7560,3660)
+Gui.Form.framePL.Caption("Product Line for Material List")
+Gui.Form.framePL.BackColor(16777215)
+Gui.Form.framePL.Anchor(15)
+Gui.Form.GGC_ProdLines.Create(GsGridControl)
+Gui.Form.GGC_ProdLines.Size(9000,3975)
+Gui.Form.GGC_ProdLines.Position(120,210)
+Gui.Form.GGC_ProdLines.Parent("framePL")
+Gui.Form.GGC_ProdLines.Anchor(15)
+Gui.Form.GGC_ProdLines.ContextMenuAttach("PL")
+Gui.Form.cmdSave.Create(Button)
+Gui.Form.cmdSave.Size(1005,375)
+Gui.Form.cmdSave.Position(90,7965)
+Gui.Form.cmdSave.Caption("Save")
+Gui.Form.cmdSave.BackColor(9157775)
+Gui.Form.cmdSave.FontStyle(True,False,False,False,False)
+Gui.Form.cmdSave.Event(Click,cmdSave_Click)
+Gui.Form.cmdSave.Anchor(6)
+Gui.Form.cmdSave.ForeColor(16777215)
+Gui.Form.frameTooling.Create(Frame)
+Gui.Form.frameTooling.Size(7395,795)
+Gui.Form.frameTooling.Position(90,4650)
+Gui.Form.frameTooling.Caption("Embedded Tooling")
+Gui.Form.frameTooling.BackColor(16777215)
+Gui.Form.chkTooling.Create(CheckBox)
+Gui.Form.chkTooling.Size(2700,360)
+Gui.Form.chkTooling.Position(120,285)
+Gui.Form.chkTooling.Parent("frameTooling")
+Gui.Form.chkTooling.Caption("Use Embedded Tooling Charges")
+Gui.Form.chkTooling.BackColor(16777215)
+Gui.Form.lbl3.Create(Label,"Tooling Part Number",True,1575,255,0,3405,390,True,0,"Arial",8,16777215,0)
+Gui.Form.lbl3.Parent("frameTooling")
+Gui.Form.txtToolingPart.Create(TextBox,"",True,1845,300,0,5025,300,True,0,"Arial",8,16777215,1)
+Gui.Form.txtToolingPart.Parent("frameTooling")
+Gui.Form.cmdBrwToolingPart.Create(Button)
+Gui.Form.cmdBrwToolingPart.Size(375,345)
+Gui.Form.cmdBrwToolingPart.Position(6900,285)
+Gui.Form.cmdBrwToolingPart.Parent("frameTooling")
+Gui.Form.cmdBrwToolingPart.Caption("^")
+Gui.Form.cmdBrwToolingPart.BackColor(16777215)
+Gui.Form.cmdBrwToolingPart.Event(Click,cmdBrwToolingPart_Click)
+Gui.Form.cmdHelpTooling.Create(Button)
+Gui.Form.cmdHelpTooling.Size(375,345)
+Gui.Form.cmdHelpTooling.Position(2880,285)
+Gui.Form.cmdHelpTooling.Parent("frameTooling")
+Gui.Form.cmdHelpTooling.Caption("?")
+Gui.Form.cmdHelpTooling.BackColor(16777215)
+Gui.Form.cmdHelpTooling.Event(Click,cmdHelpTooling_Click)
+Gui.Form.cmdHelpTooling.ToolTip("Help")
+Gui.Form.frameNewParts.Create(Frame)
+Gui.Form.frameNewParts.Size(7395,1710)
+Gui.Form.frameNewParts.Position(90,2940)
+Gui.Form.frameNewParts.Caption("Create Parts")
+Gui.Form.frameNewParts.BackColor(16777215)
+Gui.Form.optNoPart.Create(Option)
+Gui.Form.optNoPart.Size(7200,255)
+Gui.Form.optNoPart.Position(120,330)
+Gui.Form.optNoPart.Parent("frameNewParts")
+Gui.Form.optNoPart.Caption("Do Not Create Parts in Inventory")
+Gui.Form.optNoPart.BackColor(16777215)
+Gui.Form.optNoPart.ControlGroup(1)
+Gui.Form.optNewNow.Create(Option)
+Gui.Form.optNewNow.Size(7200,255)
+Gui.Form.optNewNow.Position(120,630)
+Gui.Form.optNewNow.Parent("frameNewParts")
+Gui.Form.optNewNow.Caption("Add new parts to inventory when created from Estimator")
+Gui.Form.optNewNow.BackColor(16777215)
+Gui.Form.optNewNow.ControlGroup(1)
+Gui.Form.optBatchParts.Create(Option)
+Gui.Form.optBatchParts.Size(7200,255)
+Gui.Form.optBatchParts.Position(120,930)
+Gui.Form.optBatchParts.Parent("frameNewParts")
+Gui.Form.optBatchParts.Caption("Add Parts to Batch - Batch Posted on Exit")
+Gui.Form.optBatchParts.BackColor(16777215)
+Gui.Form.optBatchParts.ControlGroup(1)
+Gui.Form.optAskEach.Create(Option)
+Gui.Form.optAskEach.Size(7200,255)
+Gui.Form.optAskEach.Position(120,1230)
+Gui.Form.optAskEach.Parent("frameNewParts")
+Gui.Form.optAskEach.Caption("Ask Each Time - Create Part now or not at all")
+Gui.Form.optAskEach.BackColor(16777215)
+Gui.Form.optAskEach.ControlGroup(1)
+Gui.Form.frameLoc.Create(Frame)
+Gui.Form.frameLoc.Size(9195,3420)
+Gui.Form.frameLoc.Position(7560,225)
+Gui.Form.frameLoc.Caption("Location")
+Gui.Form.frameLoc.BackColor(16777215)
+Gui.Form.frameLoc.Anchor(13)
+Gui.Form.frLocNewPart.Create(Frame)
+Gui.Form.frLocNewPart.Size(2205,720)
+Gui.Form.frLocNewPart.Position(75,2220)
+Gui.Form.frLocNewPart.Parent("frameLoc")
+Gui.Form.frLocNewPart.Caption("New Part")
+Gui.Form.frLocNewPart.BackColor(16777215)
+Gui.Form.ddlLocNewPart.Create(DropDownList)
+Gui.Form.ddlLocNewPart.Size(2025,330)
+Gui.Form.ddlLocNewPart.Position(90,270)
+Gui.Form.ddlLocNewPart.Parent("frLocNewPart")
+Gui.Form.ddlLocNewPart.ToolTip("This Location will be used for New Part Creation")
+Gui.Form.frLocMaterial.Create(Frame)
+Gui.Form.frLocMaterial.Size(2205,720)
+Gui.Form.frLocMaterial.Position(2340,2220)
+Gui.Form.frLocMaterial.Parent("frameLoc")
+Gui.Form.frLocMaterial.Caption("Material List")
+Gui.Form.frLocMaterial.BackColor(16777215)
+Gui.Form.ddlLocMaterial.Create(DropDownList)
+Gui.Form.ddlLocMaterial.Size(2025,330)
+Gui.Form.ddlLocMaterial.Position(90,270)
+Gui.Form.ddlLocMaterial.Parent("frLocMaterial")
+Gui.Form.ddlLocMaterial.ToolTip("This Location will be used for Material List")
+Gui.Form.frLocQuote.Create(Frame)
+Gui.Form.frLocQuote.Size(2205,720)
+Gui.Form.frLocQuote.Position(4605,2220)
+Gui.Form.frLocQuote.Parent("frameLoc")
+Gui.Form.frLocQuote.Caption("Quote")
+Gui.Form.frLocQuote.BackColor(16777215)
+Gui.Form.ddlLocQuote.Create(DropDownList)
+Gui.Form.ddlLocQuote.Size(2025,330)
+Gui.Form.ddlLocQuote.Position(90,270)
+Gui.Form.ddlLocQuote.Parent("frLocQuote")
+Gui.Form.ddlLocQuote.ToolTip("This Location will be used for Quote")
+Gui.Form.frInvLocOptions.Create(Frame)
+Gui.Form.frInvLocOptions.Size(9030,1935)
+Gui.Form.frInvLocOptions.Position(75,255)
+Gui.Form.frInvLocOptions.Parent("frameLoc")
+Gui.Form.frInvLocOptions.Caption("Current Location Options - Company Options Advanced > Inventory")
+Gui.Form.frInvLocOptions.BackColor(16777215)
+Gui.Form.frInvLocOptions.Anchor(13)
+Gui.Form.frInvLocOptions.ToolTip("These are your current System Options. Please verify carefully and select Locations from the dropdown lists carefully.")
+Gui.Form.chkLocMultiLoc.Create(CheckBox)
+Gui.Form.chkLocMultiLoc.Size(6480,315)
+Gui.Form.chkLocMultiLoc.Position(165,240)
+Gui.Form.chkLocMultiLoc.Parent("frInvLocOptions")
+Gui.Form.chkLocMultiLoc.Caption("Multiple Locations Used")
+Gui.Form.chkLocMultiLoc.BackColor(16777215)
+Gui.Form.chkLocMultiLoc.Enabled(False)
+Gui.Form.chkLocMustValidate.Create(CheckBox)
+Gui.Form.chkLocMustValidate.Enabled(False)
+Gui.Form.chkLocMustValidate.Size(6090,315)
+Gui.Form.chkLocMustValidate.Position(540,570)
+Gui.Form.chkLocMustValidate.Parent("frInvLocOptions")
+Gui.Form.chkLocMustValidate.Caption("Location Must Be Validated")
+Gui.Form.chkLocMustValidate.BackColor(16777215)
+Gui.Form.chkLocProhibitBlank.Create(CheckBox)
+Gui.Form.chkLocProhibitBlank.Size(5655,315)
+Gui.Form.chkLocProhibitBlank.Position(960,900)
+Gui.Form.chkLocProhibitBlank.Parent("frInvLocOptions")
+Gui.Form.chkLocProhibitBlank.Caption("Prohibit Blank Location")
+Gui.Form.chkLocProhibitBlank.BackColor(16777215)
+Gui.Form.chkLocProhibitBlank.Enabled(False)
+Gui.Form.chkLocAllowIssueMaterial.Create(CheckBox)
+Gui.Form.chkLocAllowIssueMaterial.Enabled(False)
+Gui.Form.chkLocAllowIssueMaterial.Size(6090,315)
+Gui.Form.chkLocAllowIssueMaterial.Position(540,1230)
+Gui.Form.chkLocAllowIssueMaterial.Parent("frInvLocOptions")
+Gui.Form.chkLocAllowIssueMaterial.Caption("Allow Issue of Material to Work Orders With Other Locations")
+Gui.Form.chkLocAllowIssueMaterial.BackColor(16777215)
+Gui.Form.chkLocCommitMaterial.Create(CheckBox)
+Gui.Form.chkLocCommitMaterial.Enabled(False)
+Gui.Form.chkLocCommitMaterial.Size(5655,315)
+Gui.Form.chkLocCommitMaterial.Position(960,1560)
+Gui.Form.chkLocCommitMaterial.Parent("frInvLocOptions")
+Gui.Form.chkLocCommitMaterial.Caption("Commit Material in Location with Existing Part")
+Gui.Form.chkLocCommitMaterial.BackColor(16777215)
+Gui.Form.frLocDefault.Create(Frame)
+Gui.Form.frLocDefault.Size(2205,720)
+Gui.Form.frLocDefault.Position(6900,2220)
+Gui.Form.frLocDefault.Parent("frameLoc")
+Gui.Form.frLocDefault.Caption("Default Loc for Data Filling")
+Gui.Form.frLocDefault.BackColor(16777215)
+Gui.Form.ddlLocDefault.Create(DropDownList)
+Gui.Form.ddlLocDefault.Size(2025,330)
+Gui.Form.ddlLocDefault.Position(90,270)
+Gui.Form.ddlLocDefault.Parent("frLocDefault")
+Gui.Form.ddlLocDefault.ToolTip("This Location will be used for populating data as default for example when Router has blank PL")
+Gui.Form.chkDoNotCopySortCode.Create(CheckBox)
+Gui.Form.chkDoNotCopySortCode.Size(3510,360)
+Gui.Form.chkDoNotCopySortCode.Position(90,2970)
+Gui.Form.chkDoNotCopySortCode.Parent("frameLoc")
+Gui.Form.chkDoNotCopySortCode.Caption("Do Not Copy Sort Code from Material list")
+Gui.Form.chkDoNotCopySortCode.BackColor(16777215)
+Gui.Form.frameQuoteUpload.Create(Frame)
+Gui.Form.frameQuoteUpload.Size(3915,1665)
+Gui.Form.frameQuoteUpload.Position(90,6270)
+Gui.Form.frameQuoteUpload.Anchor(7)
+Gui.Form.frameQuoteUpload.Caption("Quote Upload")
+Gui.Form.frameQuoteUpload.BackColor(16777215)
+Gui.Form.chkUseWatchDog.Create(CheckBox)
+Gui.Form.chkUseWatchDog.Size(2580,360)
+Gui.Form.chkUseWatchDog.Position(105,240)
+Gui.Form.chkUseWatchDog.Parent("frameQuoteUpload")
+Gui.Form.chkUseWatchDog.Caption("Use Other Project Watch Dog")
+Gui.Form.chkUseWatchDog.BackColor(16777215)
+Gui.Form.cmdHelpQuoteUpload.Create(Button)
+Gui.Form.cmdHelpQuoteUpload.Size(375,345)
+Gui.Form.cmdHelpQuoteUpload.Position(2715,255)
+Gui.Form.cmdHelpQuoteUpload.Parent("frameQuoteUpload")
+Gui.Form.cmdHelpQuoteUpload.Caption("?")
+Gui.Form.cmdHelpQuoteUpload.BackColor(16777215)
+Gui.Form.cmdHelpQuoteUpload.ToolTip("Help")
+Gui.Form.cmdHelpQuoteUpload.Event(Click,cmdHelpQuoteUpload_Click)
+Gui.Form.cmdResetWebImporter.Create(Button)
+Gui.Form.cmdResetWebImporter.Size(2985,345)
+Gui.Form.cmdResetWebImporter.Position(165,1215)
+Gui.Form.cmdResetWebImporter.Parent("frameQuoteUpload")
+Gui.Form.cmdResetWebImporter.Caption("Reset Quote Upload Registry")
+Gui.Form.cmdResetWebImporter.BackColor(16777215)
+Gui.Form.cmdResetWebImporter.ToolTip("Reset Web Import when stuck in registry error")
+Gui.Form.cmdResetWebImporter.Event(Click,cmdResetWebImporter_Click)
+Gui.Form.lbl2.Create(Label,"Current Registry Value",True,1935,255,0,165,660,True,0,"Arial",8,-2147483633,0)
+Gui.Form.lbl2.Parent("frameQuoteUpload")
+Gui.Form.txtQuoteRegistryValue.Create(TextBox,"",True,2325,300,0,165,885,True,0,"Arial",8,-2147483643,1)
+Gui.Form.txtQuoteRegistryValue.Parent("frameQuoteUpload")
+Gui.Form.cmdReadQuoteRegistryValue.Create(Button)
+Gui.Form.cmdReadQuoteRegistryValue.Size(615,375)
+Gui.Form.cmdReadQuoteRegistryValue.Position(2520,840)
+Gui.Form.cmdReadQuoteRegistryValue.Parent("frameQuoteUpload")
+Gui.Form.cmdReadQuoteRegistryValue.Caption("Refresh")
+Gui.Form.cmdReadQuoteRegistryValue.Event(Click,cmdReadQuoteRegistryValue_Click)
+Gui.Form.frameUnitSign.Create(Frame)
+Gui.Form.frameUnitSign.Size(7395,780)
+Gui.Form.frameUnitSign.Position(90,5460)
+Gui.Form.frameUnitSign.Caption("Unit Sign")
+Gui.Form.frameUnitSign.BackColor(16777215)
+Gui.Form.frameUnitSign.ToolTip("Unit Sign used in Grid")
+Gui.Form.txtUnitSign.Create(TextBox,"",True,7170,300,0,105,315,True,0,"Arial",8,-2147483643,1)
+Gui.Form.txtUnitSign.Parent("frameUnitSign")
+Gui.Form.txtUnitSign.ToolTip("Enter Unit Sign dilimited by comma  and no space in between ($,Lb,Oz...)")
+Gui.Form.txtUnitSign.MaxLength(255)
+Gui.Form.frCutList.Create(Frame)
+Gui.Form.frCutList.Size(3390,1635)
+Gui.Form.frCutList.Position(4095,6270)
+Gui.Form.frCutList.Caption("Cutlist")
+Gui.Form.frCutList.BackColor(16777215)
+Gui.Form.frCutList.Anchor(7)
+Gui.Form.chkAutoDisplayCutList.Create(CheckBox)
+Gui.Form.chkAutoDisplayCutList.Size(2730,360)
+Gui.Form.chkAutoDisplayCutList.Position(135,255)
+Gui.Form.chkAutoDisplayCutList.Parent("frCutList")
+Gui.Form.chkAutoDisplayCutList.Caption("Auto Display Cutlist as Sub-grid")
+Gui.Form.chkAutoDisplayCutList.BackColor(16777215)
+Gui.Form.chkAutoDisplayCutList.Event(Click,chkAutoDisplayCutList_Click)
+Gui.Form.cmdHelpCutList.Create(Button)
+Gui.Form.cmdHelpCutList.Size(375,345)
+Gui.Form.cmdHelpCutList.Position(2910,255)
+Gui.Form.cmdHelpCutList.Parent("frCutList")
+Gui.Form.cmdHelpCutList.Caption("?")
+Gui.Form.cmdHelpCutList.BackColor(16777215)
+Gui.Form.cmdHelpCutList.ToolTip("Help")
+Gui.Form.cmdHelpCutList.Event(Click,cmdHelpCutList_Click)
+Gui.Form.chkUsePowderCoating.Create(CheckBox)
+Gui.Form.chkUsePowderCoating.Size(2760,360)
+Gui.Form.chkUsePowderCoating.Position(135,705)
+Gui.Form.chkUsePowderCoating.Parent("frCutList")
+Gui.Form.chkUsePowderCoating.Caption("Use Powder Coating")
+Gui.Form.chkUsePowderCoating.BackColor(16777215)
+Gui.Form.chkUseWireLaborRuntime.Create(CheckBox)
+Gui.Form.chkUseWireLaborRuntime.Size(2760,360)
+Gui.Form.chkUseWireLaborRuntime.Position(135,1170)
+Gui.Form.chkUseWireLaborRuntime.Parent("frCutList")
+Gui.Form.chkUseWireLaborRuntime.Caption("Use Lbr Runtime for Cutlist")
+Gui.Form.chkUseWireLaborRuntime.BackColor(16777215)
+Gui.PL..Create
+Gui.PL..Caption("Enter a Product Line")
+Gui.PL..Size(3840,1545)
+Gui.PL..MinX(0)
+Gui.PL..MinY(0)
+Gui.PL..Position(0,0)
+Gui.PL..BackColor(16777215)
+Gui.PL..ControlBox(False)
+Gui.PL..MaxButton(False)
+Gui.PL..MousePointer(0)
+Gui.PL..Sizeable(False)
+Gui.PL.lbl2.Create(Label,"PL",True,375,255,0,60,75,True,0,"Arial",8,16777215,0)
+Gui.PL.lbl2.FontStyle(True,False,False,False,False)
+Gui.PL.txtPL.Create(TextBox,"",True,825,300,0,105,285,True,0,"Arial",8,-2147483643,1)
+Gui.PL.txtPL.MaxLength(2)
+Gui.PL.txtPL.TabStop(True)
+Gui.PL.txtPL.TabIndex(1)
+Gui.PL.txtPL.ControlGroup(1)
+Gui.PL.cmdOKPL.Create(Button)
+Gui.PL.cmdOKPL.Size(855,375)
+Gui.PL.cmdOKPL.Position(90,720)
+Gui.PL.cmdOKPL.Caption("OK")
+Gui.PL.cmdOKPL.BackColor(9157775)
+Gui.PL.cmdOKPL.ForeColor(16777215)
+Gui.PL.cmdOKPL.FontStyle(True,False,False,False,False)
+Gui.PL.cmdOKPL.DisableOnClick(10)
+Gui.PL.cmdOKPL.Event(Click,cmdOKPL_Click)
+Gui.PL.cmdOKPL.TabStop(True)
+Gui.PL.cmdOKPL.TabIndex(4)
+Gui.PL.cmdCancelPL.Create(Button)
+Gui.PL.cmdCancelPL.Size(855,375)
+Gui.PL.cmdCancelPL.Position(1080,720)
+Gui.PL.cmdCancelPL.Caption("Cancel")
+Gui.PL.cmdCancelPL.BackColor(8036607)
+Gui.PL.cmdCancelPL.ForeColor(16777215)
+Gui.PL.cmdCancelPL.DisableOnClick(10)
+Gui.PL.cmdCancelPL.Event(Click,cmdCancelPL_Click)
+Gui.PL.cmdCancelPL.TabStop(True)
+Gui.PL.cmdCancelPL.TabIndex(5)
+Gui.PL.cmdCancelPL.FontStyle(True,False,False,False,False)
+Gui.PL.txtDescr.Create(TextBox,"",True,2520,300,0,1080,285,True,0,"Arial",8,-2147483643,1)
+Gui.PL.txtDescr.TabStop(True)
+Gui.PL.txtDescr.TabIndex(3)
+Gui.PL.txtDescr.MaxLength(30)
+Gui.PL.txtDescr.ControlGroup(1)
+Gui.PL.lbl3.Create(Label,"Description",True,1080,255,0,1080,75,True,0,"Arial",8,16777215,0)
+Gui.PL.lbl3.FontStyle(True,False,False,False,False)
+Program.Sub.ScreenSU.End
+
+'this program manages options for GCG_4986_BOM_ROUTER (Estimator)
+'there is a custom table used - GCG_4986_OPTIONS
+'each section on the form references a numerical option within the table
+
+'Option 	Seq	Description		LONG VAL	CHAR_VAL			PROD_LINE	
+'1			0	PART NUMBERING	1			MANUAL
+'								2			AUTO
+'								4			CUSTOM
+'								8			PART GENERATOR
+'2			#	PL Description	1			INCLUDE PRODUCT LINE	PL
+	'**Multiple sequences for Option #2:  Each product line they choose to include in their Materials List will be listed as a sequence for option 2.
+'3			0	TOOLING OPTION	1			TOOLING PART#
+
+'5			0	PART SAVING		1			DONT SAVE NEW PARTS
+'								2			SAVE NEW PARTS NOW
+'								4			BATCH SAVE ON ESTIMATOR EXIT
+'								8			ASK EACH TIME
+'Forced Options are company options that are turned on automatically.  These are used by the program in conjunction with user groups to manage funtionality within the screen of the Estimator
+
+'Part Numbering (ID 1 in the table) tells the Estimator how the company plans on getting/building new parts, routers, and BOM's
+		'Manual (long_val 1)
+		'Auto Number (long_val 2) references GSS Company Option 400460
+		'Custom (long_val 4) was added for the original customer this was spec'd out for
+		'Part Number Generator (long_val 8) launches the core PNG menu item with options.
+
+'Product Line Select (ID 2 in the table) is used to minimize the amount of inventory being loaded to the estimator
+'Embedded Tooling - if a customer turns this on, they can control with the BOM Category whether or not tooling charges are to be amoratized in the cost of the part, or if they are to be added to a quote separately as a single line charge.  "Reference = Amoratized", "Exclude = Line Charge on Quote"
+
+'Create Part option determines when and if new parts created in the Estimator are going to be saved to GSS.
+Program.Sub.Preflight.Start
+'variable used for part numbering option
+v.Global.iVer.Declare
+'Check the version
+f.Intrinsic.Control.SelectCase(v.Caller.GSSVersion)
+	f.Intrinsic.Control.Case("2018.1")
+		v.Global.iVer.set(18)
+	f.Intrinsic.Control.Case("2019.1")
+		v.Global.iVer.set(19)
+f.Intrinsic.Control.EndSelect
+v.Global.sSupervsrID.Declare
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+f.Intrinsic.Control.Try
+	v.Local.bVersion.Declare	
+	
+	F.ODBC.Connection!COREDB.OPENCOMPANYCONNECTION
+
+	F.Global.Security.GetUserID("SUPERVSR",v.Caller.CompanyCode,v.Global.sSupervsrID)
+	f.Intrinsic.Control.CallSub(cmdReadRouterRegValue_Click)
+	f.Intrinsic.Control.CallSub(cmdReadQuoteRegistryValue_Click)
+	F.Intrinsic.Control.BlockEvents
+	f.Intrinsic.Control.CallSub(Check_Security_Groups)
+	f.Intrinsic.Control.CallSub(Check_And_Create_Tables)
+	f.Intrinsic.Control.CallSub(Check_Folder)
+	
+	'check options before loading the screen
+	f.Intrinsic.Control.CallSub(checkOptions)
+	
+	gui.Form..Visible(True)
+	
+	f.Intrinsic.Control.UnBlockEvents
+
+f.Intrinsic.Control.catch
+	f.Intrinsic.Control.CallSub(catching,"sub",v.Ambient.CurrentSubroutine,"errorno",v.Ambient.ErrorNumber,"errordesc",v.Ambient.ErrorDescription)
+f.Intrinsic.Control.EndTry
+Program.Sub.Main.End
+
+Program.Sub.catching.Start
+f.Intrinsic.Control.Try
+	v.Local.sError.Declare
+	
+	F.Intrinsic.String.Build("Project: GCG_4986_Options.g2u {0}Subroutine: {1}{0}Error Occurred {2} with description {3}",V.Ambient.NewLine,v.Args.sub,V.Args.errorno,V.args.errordesc,V.Local.sError)
+	f.Intrinsic.UI.Msgbox(v.Local.sError)
+	F.Intrinsic.Control.CallSub("Unload")
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.UI.Msgbox(v.Ambient.ErrorDescription)
+	f.Intrinsic.Control.If(v.ODBC.COREDB.State,=,1)
+		f.ODBC.Connection!COREDB.Close
+	f.Intrinsic.Control.EndIf
+	f.Intrinsic.Control.End
+f.Intrinsic.Control.EndTry
+Program.Sub.catching.End
+
+Program.Sub.Form_UnLoad.Start
+f.Intrinsic.Control.CallSub("Unload")
+Program.Sub.Form_UnLoad.End
+
+Program.Sub.Unload.Start
+f.Intrinsic.Control.Try
+	v.Local.sSql.Declare
+	
+	f.Intrinsic.Control.If(v.ODBC.COREDB.State,=,1)
+		f.ODBC.Connection!COREDB.Close
+	f.Intrinsic.Control.EndIf
+	
+	F.Intrinsic.Control.End
+
+f.Intrinsic.Control.Catch
+	f.Intrinsic.UI.Msgbox(v.Ambient.ErrorDescription,"UnLoad error")
+	f.Intrinsic.Control.If(v.ODBC.COREDB.State,=,1)
+		f.ODBC.Connection!COREDB.Close
+	f.Intrinsic.Control.EndIf
+    f.Intrinsic.Control.End
+f.Intrinsic.Control.EndTry
+Program.Sub.Unload.End
+
+Program.Sub.Check_Security_Groups.Start
+f.Intrinsic.Control.Try
+	v.Local.sMsg.Declare
+	V.Local.sRet.Declare
+	
+	'Check existing group ADM4986, ESTIMATE and ENGINEER
+	v.Local.sMsg.Set("Please create security group:")
+	f.Global.Security.GetAllUserGroups(v.Caller.CompanyCode,v.Local.sRet)	
+	f.Data.DataTable.CreateFromString("Groups",v.Local.sRet,"Group","String","","*!*",True)	
+	'ENGINEER checking
+	f.Data.DataTable.Select("Groups","Group = 'ADM4986'",V.Local.sRet)
+	F.Intrinsic.Control.If(V.Local.sRet,=,"***NORETURN***")
+		F.Intrinsic.String.Build("{0}{1}ADM4986",V.Local.sMsg,V.Ambient.NewLine,V.Local.sMsg)
+	F.Intrinsic.Control.EndIf		
+	'ESTIMATE checking
+	f.Data.DataTable.Select("Groups","Group = 'ESTIMATE'",V.Local.sRet)
+	F.Intrinsic.Control.If(V.Local.sRet,=,"***NORETURN***")
+		f.Intrinsic.String.Build("{0}{1}ESTIMATE",V.Local.sMsg,V.Ambient.NewLine,V.Local.sMsg)
+	F.Intrinsic.Control.EndIf
+	'ENGINEER checking
+	f.Data.DataTable.Select("Groups","Group = 'ENGINEER'",V.Local.sRet)
+	F.Intrinsic.Control.If(V.Local.sRet,=,"***NORETURN***")
+		F.Intrinsic.String.Build("{0}{1}ENGINEER",V.Local.sMsg,V.Ambient.NewLine,V.Local.sMsg)
+	F.Intrinsic.Control.EndIf	
+	F.Data.DataTable.Close("Groups")
+	
+	F.Intrinsic.Control.If(v.Local.sMsg.Trim,<>,"Please create security group:")
+		F.Intrinsic.UI.Msgbox(V.Local.sMsg,"Security Group")
+		F.Intrinsic.Control.CallSub("Unload")
+	F.Intrinsic.Control.EndIf		
+
+f.Intrinsic.Control.catch
+	f.Intrinsic.Control.CallSub(catching,"sub",v.Ambient.CurrentSubroutine,"errorno",v.Ambient.ErrorNumber,"errordesc",v.Ambient.ErrorDescription)
+f.Intrinsic.Control.EndTry
+Program.Sub.Check_Security_Groups.End
+
+Program.Sub.Check_And_Create_Tables.Start
+f.Intrinsic.Control.Try
+	v.Local.bExist.Declare	
+	
+	Function.ODBC.Connection!COREDB.TableExists("GCG_4986_BOMINUSE",v.Local.bExist)
+	f.Intrinsic.Control.If(v.Local.bExist.Not)
+		f.ODBC.Connection!COREDB.Execute("CREATE TABLE GCG_4986_BOMINUSE( PARENT CHAR(20), USERID CHAR(8), TERMINAL CHAR(3), DATE_TIME DATETIME);")
+	f.Intrinsic.Control.Endif	
+	
+	Function.ODBC.Connection!COREDB.TableExists("GCG_4986_OPTIONS",v.Local.bExist)
+	f.Intrinsic.Control.If(v.Local.bExist.Not)
+		f.ODBC.Connection!COREDB.Execute("CREATE TABLE GCG_4986_OPTIONS( ID INTEGER, SEQ INTEGER, DESCRIPTION CHAR(30), LONG_VAL INTEGER, CHAR_VAL CHAR(50), PROD_LINE CHAR(2));")
+	f.Intrinsic.Control.Endif
+	
+	Function.ODBC.Connection!COREDB.TableExists("GCG_4986_Stage",v.Local.bExist)
+	f.Intrinsic.Control.If(v.Local.bExist.Not)
+		f.ODBC.Connection!COREDB.Execute("CREATE TABLE GCG_4986_Stage ( UserID CHAR(8), TRMNL CHAR(3), OldParent CHAR(20), Part CHAR(20), TIER VARCHAR(10), CTIER DOUBLE, CH_Index VARCHAR(100) );")
+	f.Intrinsic.Control.Endif			
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.Control.CallSub("Catching","sub",v.Ambient.CurrentSubroutine,"errorno",v.Ambient.ErrorNumber,"errordesc",v.Ambient.ErrorDescription)
+f.Intrinsic.Control.EndTry
+Program.Sub.Check_And_Create_Tables.End
+
+Program.Sub.Check_Folder.Start
+f.Intrinsic.Control.Try
+	v.Local.bEx.Declare
+	v.Local.sDir.Declare
+	v.Local.sICon.Declare
+	
+	'Check custom folder: Custom\4986
+	f.Intrinsic.String.Build("{0}\Custom",v.Caller.GlobalDir,v.Local.sDir)
+	f.Intrinsic.File.DirExists(v.Local.sDir,v.Local.bEx)
+	f.Intrinsic.Control.If(v.Local.bEx.Not)
+		f.Intrinsic.File.CreateDir(v.Local.sDir)		
+	f.Intrinsic.Control.EndIf
+	
+	f.Intrinsic.String.Build("{0}\Custom\4986",v.Caller.GlobalDir,v.Local.sDir)
+	f.Intrinsic.Control.If(v.Local.bEx.Not)
+		f.Intrinsic.File.CreateDir(v.Local.sDir)		
+	f.Intrinsic.Control.EndIf
+	
+	f.Intrinsic.String.Build("{0}\Custom\4986\{1}",v.Caller.GlobalDir,v.Caller.CompanyCode,v.Local.sDir)
+	f.Intrinsic.File.DirExists(v.Local.sDir,v.Local.bEx)
+	f.Intrinsic.Control.If(v.Local.bEx.Not)
+		f.Intrinsic.File.CreateDir(v.Local.sDir)
+	f.Intrinsic.Control.EndIf	
+	
+	f.Intrinsic.String.Build("{0}\Cad_Export",v.Caller.GlobalDir,v.Local.sDir)
+	f.Intrinsic.File.DirExists(v.Local.sDir,v.Local.bEx)
+	f.Intrinsic.Control.If(v.Local.bEx.Not)
+		f.Intrinsic.File.CreateDir(v.Local.sDir)
+	f.Intrinsic.Control.EndIf	
+	
+	'image files used in the form
+	F.Intrinsic.String.Build("{0}\GCG_4986.ico",v.Caller.GasDir,v.Local.sIcon)
+	f.Intrinsic.File.Exists(v.Local.sIcon,v.Local.bEx)
+	f.Intrinsic.Control.If(v.Local.bEx)
+		gui.Form..Icon(V.Local.sIcon)	
+	f.Intrinsic.Control.EndIf	
+	
+f.Intrinsic.Control.Catch
+	f.Intrinsic.Control.CallSub("Catching","sub",v.Ambient.CurrentSubroutine,"errorno",v.Ambient.ErrorNumber,"errordesc",v.Ambient.ErrorDescription)
+f.Intrinsic.Control.EndTry
+Program.Sub.Check_Folder.End
+
+Program.Sub.checkoptions.Start
+f.Intrinsic.Control.Try
+	v.Local.sRet.Declare
+	v.Local.sSql.Declare
+	v.Local.bVal.Declare
+	v.Local.iVal.Declare
+	v.Local.iIndex.Declare
+	v.Local.sFilter.Declare
+	v.Local.sFound.Declare
+	v.Local.iPart.Declare
+	V.Local.b400460.Declare
+	v.Local.iCreatePart.Declare
+	V.Local.sHold.Declare
+	v.Local.sSupervsrID.Declare
+	
+	'Check System Options Advanced > Inventory
+	'Multiple Location Used
+	f.Global.General.ReadOption("400363",0,False,"0000",v.Local.bVal)
+	f.Intrinsic.Control.IIF(v.Local.bVal,=,True,1,0,v.Local.iVal)	
+	gui.Form.chkLocMultiLoc.Value(v.Local.iVal)
+	'Location Must Be Validated
+	f.Global.General.ReadOption("400363",0,False,"0002",v.Local.bVal)
+	f.Intrinsic.Control.IIF(v.Local.bVal,=,True,1,0,v.Local.iVal)	
+	gui.Form.chkLocMustValidate.Value(v.Local.iVal)	
+	'Prohibit Blank Locations
+	f.Global.General.ReadOption("400363",0,False,"0003",v.local.bVal)
+	f.Intrinsic.Control.IIF(v.Local.bVal,=,True,1,0,v.Local.iVal)
+	gui.Form.chkLocProhibitBlank.Value(v.Local.iVal)
+	'Allow Issue of Material to Work Orders With Other
+	f.Global.General.ReadOption("70001",0,False,"0000",v.local.bVal)
+	f.Intrinsic.Control.IIF(v.Local.bVal,=,True,1,0,v.Local.iVal)
+	gui.Form.chkLocAllowIssueMaterial.Value(v.Local.iVal)
+	'Commit Material in Location with Existing Part
+	f.Global.General.ReadOption("70001",0,False,"0001",v.local.bVal)
+	f.Intrinsic.Control.IIF(v.Local.bVal,=,True,1,0,v.Local.iVal)
+	gui.Form.chkLocCommitMaterial.Value(v.Local.iVal)	
+	
+	f.Intrinsic.Control.If(v.DataTable.dtLocs.Exists)
+		f.Data.DataTable.Close("dtLocs")
+	f.Intrinsic.Control.EndIf
+	F.Data.DataTable.Create("dtLocs",True)
+	F.Data.DataTable.AddColumn("dtLocs","Num","Long",0)
+	f.Data.DataTable.AddColumn("dtLocs","Loc","String","")
+	
+	gui.Form.ddlLocNewPart.ClearItems
+	gui.Form.ddlLocNewPart.AddItem("Blank")	
+	gui.Form.ddlLocNewPart.AddItem("By User Assigned Location")	
+	gui.Form.ddlLocNewPart.AddItem("Multiple")	
+	
+	gui.Form.ddlLocMaterial.ClearItems
+	gui.Form.ddlLocMaterial.AddItem("Multiple")
+	gui.Form.ddlLocMaterial.AddItem("Blank")
+	gui.Form.ddlLocMaterial.AddItem("By User Assigned Location")
+	
+	gui.Form.ddlLocQuote.ClearItems
+	gui.Form.ddlLocQuote.AddItem("Multiple")
+	gui.Form.ddlLocQuote.AddItem("Blank")	
+	gui.Form.ddlLocQuote.AddItem("By User Assigned Location")
+	
+	gui.Form.ddlLocDefault.ClearItems
+	gui.Form.ddlLocDefault.AddItem("Blank")	
+	gui.Form.ddlLocDefault.AddItem("By User Assigned Location")		
+	
+	f.Data.DataTable.AddRow("dtLocs","Num",0,"Loc","Multiple")	
+	f.Data.DataTable.AddRow("dtLocs","Num",0,"Loc","Blank")
+
+	f.Data.DataTable.AddRow("dtLocs","Num",0,"Loc","By User Assigned Location")	
+	
+	v.Local.iIndex.Set(3)
+	f.ODBC.Connection!COREDB.openlocalrecordsetRW("Locs","Select  Location from V_Locations where ltrim(rtrim(Location)) <> '' order by Location")
+	f.Intrinsic.Control.If(v.ODBC.COREDB!Locs.EOF,=,False)
+		f.ODBC.COREDB!Locs.MoveFirst
+		f.Intrinsic.Control.DoUntil(v.ODBC.COREDB!Locs.EOF,=,True)
+			gui.Form.ddlLocNewPart.AddItem(V.ODBC.COREDB!Locs.FieldValTrim!Location)
+			gui.Form.ddlLocMaterial.AddItem(V.ODBC.COREDB!Locs.FieldValTrim!Location)
+			gui.Form.ddlLocQuote.AddItem(V.ODBC.COREDB!Locs.FieldValTrim!Location)
+			gui.Form.ddlLocDefault.AddItem(V.ODBC.COREDB!Locs.FieldValTrim!Location)
+			f.Data.DataTable.AddRow("dtLocs","Num",v.Local.iIndex,"Loc",V.ODBC.COREDB!Locs.FieldValTrim!Location)
+			f.ODBC.COREDB!Locs.MoveNext
+		f.Intrinsic.Control.Loop
+		f.ODBC.COREDB!Locs.Close
+	f.Intrinsic.Control.EndIf	
+	
+	'New Part Location
+	f.ODBC.Connection!coredb.executeandreturn("select Top 1 Char_Val FROM GCG_4986_OPTIONS where ID = '10' and Seq = '0'",v.Local.sRet)	
+	f.Intrinsic.Control.If(v.Ambient.ExecuteAndReturnEOF.Not)
+		f.Intrinsic.String.Build("Loc = '{0}'",v.Local.sRet.Trim,v.Local.sFilter)
+		f.Data.DataTable.Select("dtLocs",v.Local.sFilter,v.Local.sFound)
+		f.Intrinsic.Control.If(v.Local.sFound,<>,"***NORETURN***")			
+			f.Intrinsic.Control.If(v.Local.sRet.UCase,<>,"MULTIPLE")
+				gui.Form.ddlLocNewPart.Text(v.Local.sRet.Trim)
+			f.Intrinsic.Control.EndIf				
+		f.Intrinsic.Control.Else
+			f.ODBC.Connection!coredb.execute("Delete from GCG_4986_OPTIONS where ID = '10' and Seq = '0'")
+		f.Intrinsic.Control.EndIf
+	f.Intrinsic.Control.EndIf
+	
+	'Material List Location
+	f.ODBC.Connection!coredb.executeandreturn("select Top 1 Char_Val FROM GCG_4986_OPTIONS where ID = '10' and Seq = '1'",v.Local.sRet)	
+	f.Intrinsic.Control.If(v.Ambient.ExecuteAndReturnEOF.Not)
+		f.Intrinsic.String.Build("Loc = '{0}'",v.Local.sRet.Trim,v.Local.sFilter)
+		f.Data.DataTable.Select("dtLocs",v.Local.sFilter,v.Local.sFound)
+		f.Intrinsic.Control.If(v.Local.sFound,<>,"***NORETURN***")
+			gui.Form.ddlLocMaterial.Text(v.Local.sRet.Trim)
+		f.Intrinsic.Control.Else
+			f.ODBC.Connection!coredb.execute("Delete from GCG_4986_OPTIONS where ID = '10' and Seq = '1'")
+		f.Intrinsic.Control.EndIf
+	f.Intrinsic.Control.EndIf	
+	
+	'Quote Location
+	f.ODBC.Connection!coredb.executeandreturn("select Top 1 Char_Val FROM GCG_4986_OPTIONS where ID = '10' and Seq = '2'",v.Local.sRet)	
+	f.Intrinsic.Control.If(v.Ambient.ExecuteAndReturnEOF.Not)
+		f.Intrinsic.String.Build("Loc = '{0}'",v.Local.sRet.Trim,v.Local.sFilter)
+		f.Data.DataTable.Select("dtLocs",v.Local.sFilter,v.Local.sFound)
+		f.Intrinsic.Control.If(v.Local.sFound,<>,"***NORETURN***")
+			gui.Form.ddlLocQuote.Text(v.Local.sRet.Trim)
+		f.Intrinsic.Control.Else
+			f.ODBC.Connection!coredb.execute("Delete from GCG_4986_OPTIONS where ID = '10' and Seq = '2'")
+		f.Intrinsic.Control.EndIf
+	f.Intrinsic.Control.EndIf	
+	
+	'Default Location
+	f.ODBC.Connection!coredb.executeandreturn("select Top 1 Char_Val FROM GCG_4986_OPTIONS where ID = '10' and Seq = '3'",v.Local.sRet)	
+	f.Intrinsic.Control.If(v.Ambient.ExecuteAndReturnEOF.Not)
+		f.Intrinsic.String.Build("Loc = '{0}'",v.Local.sRet.Trim,v.Local.sFilter)
+		f.Data.DataTable.Select("dtLocs",v.Local.sFilter,v.Local.sFound)
+		f.Intrinsic.Control.If(v.Local.sFound,<>,"***NORETURN***")
+			f.Intrinsic.Control.If(v.Local.sRet.UCase,<>,"MULTIPLE")
+				gui.Form.ddlLocDefault.Text(v.Local.sRet.Trim)
+			f.Intrinsic.Control.EndIf			
+		f.Intrinsic.Control.Else
+			f.ODBC.Connection!coredb.execute("Delete from GCG_4986_OPTIONS where ID = '10' and Seq = '3'")
+		f.Intrinsic.Control.EndIf
+	f.Intrinsic.Control.EndIf	
+	
+	'Part Numbering Method
+	f.ODBC.Connection!coredb.executeandreturn("select Top 1 long_val,CHAR_Val FROM GCG_4986_OPTIONS where ID = '1'",V.Local.sRet)
+	F.Intrinsic.Control.If(V.Ambient.ExecuteAndReturnEOF.Not)
+		f.Intrinsic.String.Split(v.Local.sRet,"*!*",v.Local.sRet)
+		v.Local.iPart.Set(v.Local.sRet(0))
+		f.Intrinsic.Control.SelectCase(v.Local.iPart)
+			'MANUAL
+			f.Intrinsic.Control.Case(1)
+				gui.Form.optManual.Value(1)
+			'AUTO	
+			f.Intrinsic.Control.Case(2)
+				gui.Form.optAuto.Value(1)
+			'CUSTOM
+			f.Intrinsic.Control.Case(4)	
+				gui.Form.optCustom.Value(1)
+				gui.Form.txtLibFile.Text(v.Local.sRet(1).Trim)
+			'PART GENERATOR	
+			f.Intrinsic.Control.Case(8)
+				gui.Form.optPNG.Value(1)
+		f.Intrinsic.Control.EndSelect
+	F.Intrinsic.Control.EndIf
+	
+	'company option for auto numbering
+	f.Global.General.ReadOption("400460",0,False,"0000",v.Local.b400460)
+	'if b400460 is true and sRet(1) <> 2, then we have a mismatch.  Inform the user.
+	f.Intrinsic.Control.If(v.Local.b400460)
+		F.Intrinsic.Control.If(V.Local.iPart,<>,2)
+			f.Intrinsic.UI.Msgbox("Option Use Automatic Part Numbering (Run1Shot > CUSTOM) is activated, but the Estimator was set differently. You'd need to reset this option either in the company option or in the Estimator.","Options mismatch")
+		F.Intrinsic.Control.EndIf
+	F.Intrinsic.Control.ELSE	
+		F.Intrinsic.Control.If(V.Local.iPart,=,2)
+			f.Intrinsic.UI.Msgbox("Option Use Automatic Part Numbering (Run1Shot > CUSTOM) is Not activated, but the Estimator was set Automatic Part Numbering. You'd need to reset this option either in the company option or in the Estimator.","Options mismatch")
+		F.Intrinsic.Control.EndIf
+	f.Intrinsic.Control.EndIf
+	
+	'these two options are required to be turned on for the program to work
+	'use BOM complete flag
+	f.Global.General.SaveOption(401103,0,1,"","","",0,v.Ambient.Date)
+	'use Router complete Flag
+	f.Global.General.SaveOption(400177,0,1,"","","",0,v.Ambient.Date)	
+	
+	'loading product lines for filtering
+	f.Intrinsic.Control.If(v.Caller.GSSVersion,<,"2019.1")
+		v.Local.sSql.Set("select V.product_line as PL, V.product_line_name as DESCRIPTION, CAST(O.LONG_VAL AS BIT) AS SELECTED, O.LONG_VAL, O.SEQ, O.ID, o.char_val from v_product_line V left join GCG_4986_OPTIONS O on V.PRODUCT_LINE = O.PROD_LINE   union  Select a.Prod_Line as PL,a.Description,CAST(a.LONG_VAL AS BIT) AS SELECTED,a.LONG_VAL, a.SEQ, a.ID, a.char_val  from GCG_4986_Options a where a.Char_Val = 'INCLUDE PRODUCT LINE' and a.Prod_Line not in (Select p.Product_Line from V_Product_line p)")
+	f.Intrinsic.Control.Else
+		v.Local.sSql.Set("select V.prod_line as PL, V.pl_name as DESCRIPTION, CAST(O.LONG_VAL AS BIT) AS SELECTED, O.LONG_VAL, O.SEQ, O.ID, o.char_val from v_pl_master V left join GCG_4986_OPTIONS O on V.PROD_LINE = O.PROD_LINE  union  Select a.Prod_Line as PL,a.Description,CAST(a.LONG_VAL AS BIT) AS SELECTED,a.LONG_VAL, a.SEQ, a.ID, a.char_val  from GCG_4986_Options a where a.Char_Val = 'INCLUDE PRODUCT LINE' and a.Prod_Line not in (Select p.Prod_Line from v_pl_master p)")
+	f.Intrinsic.Control.EndIf
+	
+	f.Intrinsic.Control.If(v.DataTable.PRODLINE.Exists)
+		f.Data.DataTable.Close("PRODLINE")
+	f.Intrinsic.Control.EndIf
+	f.Data.DataTable.CreateFromSQL("PRODLINE","COREDB",V.Local.sSql,True)
+	F.Intrinsic.Control.If(V.DataTable.PRODLINE.RowCount,=,0)
+		F.Intrinsic.UI.Msgbox("No Product Line found. Please setup Product Line","Unload")
+		f.Intrinsic.Control.CallSub(Unload)
+	F.Intrinsic.Control.EndIf	
+	F.Data.DataView.Create("PRODLINE","V_PRODLINE",22,"","")
+	GUI.Form.GGC_ProdLines.DataSource("PRODLINE")
+	GUI.Form.GGC_ProdLines.AddGridviewFromDataview("GV_PRODLINE","PRODLINE","V_PRODLINE")
+	
+	f.Data.DataView.Create("PRODLINE","vPL",22,"Selected is Null","")
+	f.Data.DataView.SetValue("PRODLINE","vPL",-1,"Selected",False)
+	f.Data.DataView.Close("PRODLINE","vPL")
+	
+	'hide columns
+	gui.Form.GGC_ProdLines.SetColumnProperty("GV_PRODLINE","LONG_VAL","Visible",False)
+	gui.Form.GGC_ProdLines.SetColumnProperty("GV_PRODLINE","SEQ","Visible",False)
+	gui.Form.GGC_ProdLines.SetColumnProperty("GV_PRODLINE","ID","Visible",False)
+	gui.Form.GGC_ProdLines.SetColumnProperty("GV_PRODLINE","CHAR_VAL","Visible",False)
+	'enable just the selection box
+	GUI.Form.GGC_ProdLines.SetColumnProperty("GV_PRODLINE","SELECTED","ReadOnly",False)
+	gui.Form.GGC_ProdLines.SetColumnProperty("GV_PRODLINE","SELECTED","AllowEdit",True)
+	'set widths
+	gui.Form.GGC_ProdLines.SetColumnProperty("GV_PRODLINE","PL","Width",25)
+	gui.Form.GGC_ProdLines.SetColumnProperty("GV_PRODLINE","DESCRIPTION","Width",100)
+	gui.Form.GGC_ProdLines.SetColumnProperty("GV_PRODLINE","SELECTED","Width",40)
+	
+	gui.Form.GGC_ProdLines.SetColumnProperty("GV_PRODLINE","PL","HeaderFontBold",True)
+	gui.Form.GGC_ProdLines.SetColumnProperty("GV_PRODLINE","DESCRIPTION","HeaderFontBold",True)
+	gui.Form.GGC_ProdLines.SetColumnProperty("GV_PRODLINE","SELECTED","HeaderFontBold",True)
+	
+	gui.Form.GGC_ProdLines.SetColumnProperty("GV_PRODLINE","SELECTED","HeaderHAlignment","center")	
+	
+	'check the tooling option
+	v.Local.sSql.Set("select long_val, char_val from GCG_4986_OPTIONS where ID = 3")
+	f.ODBC.Connection!coredb.executeandreturn(v.Local.sSql,v.Local.sRet)
+	f.Intrinsic.Control.If(v.Local.sRet.Length,>,0)
+		f.Intrinsic.String.Split(v.Local.sRet,"*!*",v.Local.sRet)
+			gui.Form.chkTooling.value(v.Local.sRet(0).long)
+			gui.Form.txtToolingPart.Text(v.Local.sRet(1).trim)
+	f.Intrinsic.Control.EndIf
+		
+	'create part option
+	v.Local.sSql.Set("select Top 1 LONG_VAL from GCG_4986_OPTIONS where ID = 5")
+	f.ODBC.Connection!coredb.executeandreturn(v.Local.sSql,v.Local.iCreatePart)
+	f.Intrinsic.Control.If(v.Ambient.ExecuteAndReturnEOF.not)
+		f.Intrinsic.Control.SelectCase(V.Local.iCreatePart)
+			f.Intrinsic.Control.Case(1)
+				gui.Form.optNoPart.Value(1)
+			f.Intrinsic.Control.Case(2)
+				gui.Form.optNewNow.Value(1)
+			f.Intrinsic.Control.Case(4)
+				gui.Form.optBatchParts.Value(1)
+			f.Intrinsic.Control.Case(8)
+				gui.Form.optAskEach.Value(1)
+		f.Intrinsic.Control.EndSelect	
+	f.Intrinsic.Control.EndIf
+	
+	'Use other Project Watch Dog
+	F.Global.Security.GetUserID("SUPERVSR",v.Caller.CompanyCode,v.Local.sSupervsrID)
+	f.Global.Registry.ReadValue(V.Local.sSupervsrID,V.Caller.CompanyCode,"CHKUSEOTHERWATCHDOG",4986,3001,0,"False",V.Local.sHold)
+	GUI.Form.chkUseWatchDog.Value(V.Local.sHold)
+	
+	'Use other Project Watch Dog
+	f.Global.Registry.ReadValue(V.Local.sSupervsrID,V.Caller.CompanyCode,"UNITSIGN",4986,6001,5,"$,Lb,Oz,Kg,G",V.Local.sHold)
+	GUI.Form.txtUnitSign.Text(V.Local.sHold)	
+	
+	'Use Cutlist
+	f.Global.Registry.ReadValue(V.Local.sSupervsrID,V.Caller.CompanyCode,"USECUTLIST",4986,8001,0,"False",V.Local.sHold)
+	GUI.Form.chkAutoDisplayCutList.Value(V.Local.sHold)	
+	
+	'Use Powder Coating
+	f.Global.Registry.ReadValue(V.Local.sSupervsrID,V.Caller.CompanyCode,"USEPOWDERCOATING",4986,8002,0,"False",V.Local.sHold)
+	
+	GUI.Form.chkUsePowderCoating.Value(V.Local.sHold)		
+	
+	'Use Wire Labor Runtime
+	f.Global.Registry.ReadValue(V.Local.sSupervsrID,V.Caller.CompanyCode,"USEWIRELABORRUNTIME",4986,8003,0,"False",V.Local.sHold)
+	GUI.Form.chkUseWireLaborRuntime.Value(V.Local.sHold)		
+	
+	'Copy Sort Code from Material list
+	f.Global.Registry.ReadValue(V.Local.sSupervsrID,V.Caller.CompanyCode,"DONOTCOPYSORTCODE",4986,8004,0,"False",V.Local.sHold)
+	gui.Form.chkDoNotCopySortCode.Value(V.Local.sHold)	
+	
+f.Intrinsic.Control.catch
+	f.Intrinsic.Control.CallSub(catching,"sub",v.Ambient.CurrentSubroutine,"errorno",v.Ambient.ErrorNumber,"errordesc",v.Ambient.ErrorDescription)
+f.Intrinsic.Control.EndTry
+Program.Sub.checkoptions.End
+
+Program.Sub.cmdBrowseLibFile_Click.Start
+f.Intrinsic.Control.Try
+	v.Local.sRet.Declare
+	v.Local.bInGas.Declare
+	v.Local.sFileName.Declare
+	
+	f.Intrinsic.UI.ShowOpenFileDialog(v.Caller.GasDir,"*.lib","",v.Local.sRet)		
+	f.Intrinsic.Control.If(v.Local.sRet.IsCancel,=,False)
+		f.Intrinsic.String.IsInString(v.Local.sRet,v.Caller.GasDir,True,v.Local.bInGas)
+		f.Intrinsic.Control.If(v.Local.bInGas.Not)
+			f.Intrinsic.UI.Msgbox("The lib file must be in Global\Plugins\GAB\GAS directory.","Attention")
+			gui.Form.txtLibFile.Text("")
+			f.Intrinsic.Control.ExitSub
+		f.Intrinsic.Control.Else
+			f.Intrinsic.String.Replace(v.Local.sRet,v.Caller.GasDir,"",v.Local.sFileName)
+			f.Intrinsic.String.Split(v.Local.sFileName,"\",v.Local.sFileName)
+			f.Intrinsic.Control.If(v.Local.sFileName.UBound,>=,1)
+				f.Intrinsic.UI.Msgbox("The lib file must be in Global\Plugins\GAB\GAS directory.","Attention")
+				gui.Form.txtLibFile.Text("")
+				f.Intrinsic.Control.ExitSub
+			f.Intrinsic.Control.EndIf
+		f.Intrinsic.Control.EndIf
+		gui.Form.txtLibFile.Text(v.Local.sRet)
+	f.Intrinsic.Control.EndIf
+	
+f.Intrinsic.Control.catch
+	f.Intrinsic.Control.CallSub(catching,"sub",v.Ambient.CurrentSubroutine,"errorno",v.Ambient.ErrorNumber,"errordesc",v.Ambient.ErrorDescription)
+f.Intrinsic.Control.EndTry	
+Program.Sub.cmdBrowseLibFile_Click.End
+
+Program.Sub.cmdBrwToolingPart_Click.Start
+f.Intrinsic.Control.Try
+	v.Local.sRet.Declare
+	
+	f.Intrinsic.UI.SetBrowserHotTypeAhead(True)
+	f.Intrinsic.UI.Browser(105,"",v.Local.sRet)
+	
+	f.Intrinsic.Control.If(v.Local.sRet.IsCancel,=,False)
+		f.Intrinsic.String.Split(v.Local.sRet,"*!*",v.Local.sRet)
+		gui.Form.txtToolingPart.Text(v.Local.sRet(0))
+	f.Intrinsic.Control.EndIf
+
+f.Intrinsic.Control.catch
+	f.Intrinsic.Control.CallSub(catching,"sub",v.Ambient.CurrentSubroutine,"errorno",v.Ambient.ErrorNumber,"errordesc",v.Ambient.ErrorDescription)
+f.Intrinsic.Control.EndTry
+Program.Sub.cmdBrwToolingPart_Click.End
+
+Program.Sub.cmdSave_Click.Start
+f.Intrinsic.Control.Try
+	v.Local.bSecu.Declare
+	v.Local.iAutoPart.Declare
+
+	f.Global.Security.IsInGroup(V.Caller.User,"ADM4986",V.Caller.CompanyCode,V.Local.bSecu)
+	F.Intrinsic.Control.If(V.Local.bSecu.Not)
+		F.Intrinsic.UI.Msgbox("User is not in security group ADM4986 to save options.","Attention")
+		f.Intrinsic.Control.ExitSub
+	F.Intrinsic.Control.EndIf
+	
+	'Product Lines for Material List
+	f.Data.DataView.SetFilter("PRODLINE","V_PRODLINE","SELECTED = True")
+	f.Data.DataView.SetValue("PRODLINE","V_PRODLINE",-1,"LONG_VAL",1)
+	F.Data.DataView.SetSeries("PRODLINE","V_PRODLINE","SEQ",1,1)
+	F.Data.DataView.SetValue("PRODLINE","V_PRODLINE",-1,"ID",2)
+	F.Data.DataView.SetValue("PRODLINE","V_PRODLINE",-1,"CHAR_VAL","INCLUDE PRODUCT LINE")	
+	
+	F.Intrinsic.Control.If(V.DataTable.Options.Exists)
+		f.Data.DataTable.Close("Options")
+	F.Intrinsic.Control.EndIf
+	f.Data.DataView.ToDataTable("PRODLINE","V_PRODLINE","Options",True)
+
+	'set the options for part numbering
+	f.Intrinsic.Control.CallSub(option_Part_Numbering_id_1)
+	f.Intrinsic.Control.If(v.Args.bValidated,=,False)
+		f.Intrinsic.Control.ExitSub
+	f.Intrinsic.Control.EndIf
+	
+	'set the tooling option
+	f.Intrinsic.Control.CallSub(option_Tooling_id_3)	
+	f.Intrinsic.Control.If(v.Args.bValidated,=,False)
+		f.Intrinsic.Control.ExitSub
+	f.Intrinsic.Control.EndIf	
+	
+	'set the create new part options
+	f.Intrinsic.Control.CallSub(option_Create_Part_id_5)
+	f.Intrinsic.Control.If(v.Args.bValidated,=,False)
+		f.Intrinsic.Control.ExitSub
+	f.Intrinsic.Control.EndIf
+	
+	'set the create new part options
+	f.Intrinsic.Control.CallSub(option_Location_id_10)
+	f.Intrinsic.Control.If(v.Args.bValidated,=,False)
+		f.Intrinsic.Control.ExitSub
+	f.Intrinsic.Control.EndIf	
+	
+	gui.Form..Enabled(False)
+	'write options to table
+	f.Intrinsic.Control.CallSub(write_options)
+	gui.Form.GGC_ProdLines.Visible(False)
+	f.Intrinsic.Control.CallSub(CheckOptions)
+	gui.Form.GGC_ProdLines.Visible(True)
+	gui.Form..Enabled(True)
+	
+f.Intrinsic.Control.catch
+	f.Intrinsic.Control.CallSub(catching,"sub",v.Ambient.CurrentSubroutine,"errorno",v.Ambient.ErrorNumber,"errordesc",v.Ambient.ErrorDescription)
+f.Intrinsic.Control.EndTry
+Program.Sub.cmdSave_Click.End
+
+Program.Sub.option_Part_Numbering_id_1.Start
+f.Intrinsic.Control.Try
+	v.Local.sDescription.Declare(String,"PART NUMBERING")
+	v.Local.sCharVal.Declare
+	v.Local.iPart.Declare
+	v.Local.bVal.Declare
+	v.Local.sMsg.Declare
+	v.Local.bInGas.Declare
+	v.Local.bExist.Declare
+	v.Local.sFileName.Declare
+	v.Local.sRet.Declare
+	v.Local.iCnt.Declare
+	
+	'Program iPart option
+	f.Intrinsic.Control.If(v.Screen.Form!optManual.Value)
+		v.Local.sCharVal.Set("MANUAL")
+		v.Local.iPart.Set(1)
+		
+	f.Intrinsic.Control.ElseIf(v.Screen.Form!optAuto.Value)
+		''Check Option, Read Auto Part Numbering to make sure it is good
+		f.Global.General.ReadOption("400460",0,False,"0000",v.Local.bVal)
+		f.Intrinsic.Control.If(v.Local.bVal.Not)
+			f.Intrinsic.Variable.AddRV("bValidated",False)			
+			f.Intrinsic.String.Build("Use Automatic Part Numbering is not activated.{0}Please Run1Shot > Custom to activate the option.{0}Nothing Saved.",v.Ambient.NewLine,v.Local.sMsg)
+			f.Intrinsic.UI.Msgbox(v.Local.sMsg,"Attention")
+			gui.Form.optAuto.Value(0)
+			f.Intrinsic.Control.ExitSub
+		f.Intrinsic.Control.EndIf
+		V.Local.sCharVal.Set("AUTO")
+		v.Local.iPart.Set(2)
+		
+	f.Intrinsic.Control.ElseIf(v.Screen.Form!optCustom.Value)
+		f.Intrinsic.String.Build("{0} - {1}",V.Local.sDescription,"CUSTOM",V.Local.sDescription)
+		'Check if the file exists
+		f.Intrinsic.File.Exists(v.Screen.Form!txtLibFile.Text.Trim,v.Local.bExist)
+		f.Intrinsic.Control.If(v.Local.bExist.Not)
+			f.Intrinsic.Variable.AddRV("bValidated",False)
+			f.Intrinsic.UI.Msgbox("The Lib file does not exits. Nothing Saved.","Attention")
+			gui.Form.optCustom.Value(0)
+			f.Intrinsic.Control.ExitSub			
+		f.Intrinsic.Control.EndIf		
+		'Check if the file is in GAS folder
+		f.Intrinsic.String.IsInString(v.Screen.Form!txtLibFile.Text.Trim,v.Caller.GasDir,True,v.Local.bInGas)
+		f.Intrinsic.Control.If(v.Local.bInGas.Not)
+			f.Intrinsic.Variable.AddRV("bValidated",False)
+			f.Intrinsic.UI.Msgbox("The lib file must be in Global\Plugins\GAB\GAS directory. Nothing Saved.","Attention")
+			gui.Form.optCustom.Value(0)
+			f.Intrinsic.Control.ExitSub	
+		f.Intrinsic.Control.Else
+			f.Intrinsic.String.Replace(v.Screen.Form!txtLibFile.Text.Trim,v.Caller.GasDir,"",v.Local.sFileName)
+			f.Intrinsic.String.Split(v.Local.sFileName,"\",v.Local.sFileName)
+			f.Intrinsic.Control.If(v.Local.sFileName.UBound,>=,1)
+				f.Intrinsic.Variable.AddRV("bValidated",False)
+				f.Intrinsic.UI.Msgbox("The lib file must be in Global\Plugins\GAB\GAS directory. Nothing Saved.","Attention")
+				gui.Form.optCustom.Value(0)
+				f.Intrinsic.Control.ExitSub	
+			f.Intrinsic.Control.EndIf
+		f.Intrinsic.Control.EndIf	
+		
+		v.Local.sCharVal.Set(v.Screen.Form!txtLibFile.Text.Trim)
+		v.Local.iPart.Set(4)
+		
+	f.Intrinsic.Control.ElseIf(v.Screen.Form!optPNG.Value)
+		V.Local.sCharVal.Set("PART GENERATOR")
+		v.Local.iPart.Set(8)
+		
+	f.Intrinsic.Control.Else		
+		f.Intrinsic.Variable.AddRV("bValidated",False)
+		f.Intrinsic.UI.Msgbox("Please select Part Numbering method. Nothing Saved","Attention")
+		f.Intrinsic.Control.ExitSub
+	f.Intrinsic.Control.EndIf
+	
+	f.Data.DataTable.Select("Options","ID = '1' and Seq = '0'",v.Local.sRet)
+	f.Intrinsic.Control.If(v.Local.sRet,<>,"***NORETURN***")
+		f.Intrinsic.String.Split(v.Local.sRet,"*!*",v.Local.sRet)
+		f.Intrinsic.Control.For(v.Local.iCnt,v.Local.sRet.UBound,0,-1)
+			f.Data.DataTable.DeleteRow(v.Local.sRet(v.Local.iCnt))
+		f.Intrinsic.Control.Next(v.Local.iCnt)
+		f.Data.DataTable.AcceptChanges("Options")		
+	f.Intrinsic.Control.EndIf
+	
+	F.Data.DataTable.AddRow("Options","SELECTED",True,"ID",1,"SEQ",0,"CHAR_VAL",V.Local.sCharVal,"DESCRIPTION",V.Local.sDescription,"LONG_VAL",V.Local.iPart)
+	f.Intrinsic.Variable.AddRV("bValidated",True)
+	
+f.Intrinsic.Control.catch
+	f.Intrinsic.Control.CallSub(catching,"sub",v.Ambient.CurrentSubroutine,"errorno",v.Ambient.ErrorNumber,"errordesc",v.Ambient.ErrorDescription)
+f.Intrinsic.Control.EndTry
+Program.Sub.option_Part_Numbering_id_1.End
+
+Program.Sub.option_Tooling_id_3.Start
+f.Intrinsic.Control.Try
+	v.Local.iCnt.Declare
+	v.Local.sRet.Declare
+	v.Local.sSQL.Declare
+	
+	f.Intrinsic.Control.If(v.Screen.Form!chkTooling.checkedasboolean)
+		f.Intrinsic.String.Build("Select Part from V_Inventory_Mstr where Rtrim(Part) = '{0}'",v.Screen.Form!txtToolingPart.Text,v.Local.sSQL)
+		f.ODBC.Connection!COREDB.ExecuteAndReturn(v.Local.sSQL,v.Local.sRet)
+		f.Intrinsic.Control.If(v.Ambient.ExecuteAndReturnEOF)
+			f.Intrinsic.Variable.AddRV("bValidated",False)
+			f.Intrinsic.UI.Msgbox("Tooling Part is invalid. Nothing Saved.","Attention")			
+			f.Intrinsic.Control.ExitSub
+		f.Intrinsic.Control.EndIf
+	f.Intrinsic.Control.EndIf
+	
+	f.Data.DataTable.Select("Options","ID = '3' and Seq = '0'",v.Local.sRet)
+	f.Intrinsic.Control.If(v.Local.sRet,<>,"***NORETURN***")
+		f.Intrinsic.String.Split(v.Local.sRet,"*!*",v.Local.sRet)
+		f.Intrinsic.Control.For(v.Local.iCnt,v.Local.sRet.UBound,0,-1)
+			f.Data.DataTable.DeleteRow(v.Local.sRet(v.Local.iCnt))
+		f.Intrinsic.Control.Next(v.Local.iCnt)
+		f.Data.DataTable.AcceptChanges("Options")		
+	f.Intrinsic.Control.EndIf	
+	
+	'if the checkbox is checked yes, write a record for ID 3
+	f.Intrinsic.Control.If(v.Screen.Form!chkTooling.checkedasboolean)
+		f.Data.DataTable.AddRow("Options","SELECTED",True,"ID",3,"SEQ",0,"DESCRIPTION","TOOLING","LONG_VAL",1,"CHAR_VAL",V.Screen.Form!txtToolingPart.TEXT.Trim)
+	f.Intrinsic.Control.EndIf	
+	
+	f.Intrinsic.Variable.AddRV("bValidated",True)
+
+f.Intrinsic.Control.catch
+	f.Intrinsic.Control.CallSub(catching,"sub",v.Ambient.CurrentSubroutine,"errorno",v.Ambient.ErrorNumber,"errordesc",v.Ambient.ErrorDescription)
+f.Intrinsic.Control.EndTry
+Program.Sub.option_Tooling_id_3.End
+
+Program.Sub.option_Create_Part_id_5.Start
+f.Intrinsic.Control.Try
+	V.Local.sSave.Declare
+	v.Local.iCnt.Declare
+	v.Local.sRet.Declare
+	v.Local.iSave.Declare
+	
+	f.Intrinsic.Control.If(v.Screen.Form!optNoPart.Value)
+		v.Local.sSave.Set("DONT SAVE")
+		v.Local.iSave.Set(1)
+	f.Intrinsic.Control.ElseIf(v.Screen.Form!optNewNow.Value)
+		v.Local.sSave.Set("SAVE NOW")
+		v.Local.iSave.Set(2)
+	f.Intrinsic.Control.ElseIf(v.Screen.Form!optBatchParts.Value)
+		V.Local.sSave.Set("BATCH SAVE")
+		v.Local.iSave.Set(4)
+	f.Intrinsic.Control.ElseIf(v.Screen.Form!optAskEach.Value)
+		V.Local.sSave.Set("ASK EACH TIME")
+		v.Local.iSave.Set(8)
+	f.Intrinsic.Control.Else
+		f.Intrinsic.Variable.AddRV("bValidated",False)
+		f.Intrinsic.UI.Msgbox("Please select Create Part method. Nothing Saved","Attention")
+		f.Intrinsic.Control.ExitSub
+	f.Intrinsic.Control.EndIf
+
+
+	f.Data.DataTable.Select("Options","ID = '5' and Seq = '0'",v.Local.sRet)
+	f.Intrinsic.Control.If(v.Local.sRet,<>,"***NORETURN***")
+		f.Intrinsic.String.Split(v.Local.sRet,"*!*",v.Local.sRet)
+		f.Intrinsic.Control.For(v.Local.iCnt,v.Local.sRet.UBound,0,-1)
+			f.Data.DataTable.DeleteRow(v.Local.sRet(v.Local.iCnt))
+		f.Intrinsic.Control.Next(v.Local.iCnt)
+		f.Data.DataTable.AcceptChanges("Options")		
+	f.Intrinsic.Control.EndIf	
+	
+	F.Data.Datatable.AddRow("Options","SELECTED",True,"ID",5,"SEQ",0,"DESCRIPTION","SAVE NEW PARTS","LONG_VAL",V.Local.iSave,"CHAR_VAL",V.Local.sSave)
+	f.Intrinsic.Variable.AddRV("bValidated",True)
+
+f.Intrinsic.Control.catch
+	f.Intrinsic.Control.CallSub(catching,"sub",v.Ambient.CurrentSubroutine,"errorno",v.Ambient.ErrorNumber,"errordesc",v.Ambient.ErrorDescription)
+f.Intrinsic.Control.EndTry
+Program.Sub.option_Create_Part_id_5.End
+
+Program.Sub.option_Location_id_10.Start
+f.Intrinsic.Control.Try
+	v.Local.iCnt.Declare
+	v.Local.sRet.Declare
+
+	'10 - 0
+	f.Intrinsic.Control.If(v.Screen.Form!ddlLocNewPart.Text.Trim,=,"")
+		f.Intrinsic.Variable.AddRV("bValidated",False)
+		f.Intrinsic.UI.Msgbox("Please select New Part Location. Nothing Saved.","Attention")
+		f.Intrinsic.Control.ExitSub
+	f.Intrinsic.Control.EndIf
+	
+	'10 - 1
+	f.Intrinsic.Control.If(v.Screen.Form!ddlLocMaterial.Text.Trim,=,"")
+		f.Intrinsic.Variable.AddRV("bValidated",False)
+		f.Intrinsic.UI.Msgbox("Please select Material List Location. Nothing Saved.","Attention")
+		f.Intrinsic.Control.ExitSub
+	f.Intrinsic.Control.EndIf	
+	
+	'10 - 2
+	f.Intrinsic.Control.If(v.Screen.Form!ddlLocQuote.Text.Trim,=,"")
+		f.Intrinsic.Variable.AddRV("bValidated",False)
+		f.Intrinsic.UI.Msgbox("Please select Quote Location. Nothing Saved.","Attention")
+		f.Intrinsic.Control.ExitSub
+	f.Intrinsic.Control.EndIf
+	
+	'10 - 3
+	f.Intrinsic.Control.If(v.Screen.Form!ddlLocDefault.Text.Trim,=,"")
+		f.Intrinsic.Variable.AddRV("bValidated",False)
+		f.Intrinsic.UI.Msgbox("Please select Default Location. Nothing Saved.","Attention")
+		f.Intrinsic.Control.ExitSub
+	f.Intrinsic.Control.EndIf	
+
+	f.Data.DataTable.Select("Options","ID = '10'",v.Local.sRet)
+	f.Intrinsic.Control.If(v.Local.sRet,<>,"***NORETURN***")
+		f.Intrinsic.String.Split(v.Local.sRet,"*!*",v.Local.sRet)
+		f.Intrinsic.Control.For(v.Local.iCnt,v.Local.sRet.UBound,0,-1)
+			f.Data.DataTable.DeleteRow(v.Local.sRet(v.Local.iCnt))
+		f.Intrinsic.Control.Next(v.Local.iCnt)
+		f.Data.DataTable.AcceptChanges("Options")		
+	f.Intrinsic.Control.EndIf
+	
+	F.Data.Datatable.AddRow("Options","SELECTED",True,"ID",10,"SEQ",0,"DESCRIPTION","Location","LONG_VAL",0,"CHAR_VAL",v.Screen.Form!ddlLocNewPart.Text.Trim)
+	F.Data.Datatable.AddRow("Options","SELECTED",True,"ID",10,"SEQ",1,"DESCRIPTION","Location","LONG_VAL",0,"CHAR_VAL",v.Screen.Form!ddlLocMaterial.Text.Trim)
+	F.Data.Datatable.AddRow("Options","SELECTED",True,"ID",10,"SEQ",2,"DESCRIPTION","Location","LONG_VAL",0,"CHAR_VAL",v.Screen.Form!ddlLocQuote.Text.Trim)
+	F.Data.Datatable.AddRow("Options","SELECTED",True,"ID",10,"SEQ",3,"DESCRIPTION","Location","LONG_VAL",0,"CHAR_VAL",v.Screen.Form!ddlLocDefault.Text.Trim)
+	
+	f.Intrinsic.Variable.AddRV("bValidated",True)
+
+f.Intrinsic.Control.catch
+	f.Intrinsic.Control.CallSub(catching,"sub",v.Ambient.CurrentSubroutine,"errorno",v.Ambient.ErrorNumber,"errordesc",v.Ambient.ErrorDescription)
+f.Intrinsic.Control.EndTry
+Program.Sub.option_Location_id_10.End
+
+Program.Sub.write_options.Start
+f.Intrinsic.Control.Try
+	v.Local.sMap.Declare
+	
+	'build our map for saving
+	v.local.sMap.Set("ID@!@ID*!*SEQ@!@SEQ*!*DESCRIPTION@!@DESCRIPTION*!*LONG_VAL@!@LONG_VAL*!*CHAR_VAL@!@CHAR_VAL*!*PL@!@PROD_LINE")
+		
+	'delete previous records and save the new options
+	F.ODBC.Connection!COREDB.Execute("delete from GCG_4986_OPTIONS")
+	
+	F.Data.DataTable.SaveToDB("Options","COREDB","GCG_4986_OPTIONS","ID*!*SEQ","128",V.Local.sMap)	
+	
+	'Use Other Watchdog
+	F.Global.Registry.AddValue("SUPERVSR",V.Caller.CompanyCode,"CHKUSEOTHERWATCHDOG",4986,3001,False,"Checkbox",v.Screen.Form!chkUseWatchDog.CheckedAsBoolean,0,-1,v.Ambient.Date,12:00:00 AM)	
+	'Unit Sign
+	F.Global.Registry.AddValue(V.Caller.User,V.Caller.CompanyCode,"UNITSIGN",4986,6001,False,v.Screen.Form!txtUnitSign.Text.Trim,False,0,-1,v.Ambient.Date,12:00:00 AM)	
+	'Use Cutlist
+	F.Global.Registry.AddValue("SUPERVSR",V.Caller.CompanyCode,"USECUTLIST",4986,8001,False,"Checkbox",v.Screen.Form!chkAutoDisplayCutList.CheckedAsBoolean,0,-1,v.Ambient.Date,12:00:00 AM)
+	'Use powder coating
+	F.Global.Registry.AddValue("SUPERVSR",V.Caller.CompanyCode,"USEPOWDERCOATING",4986,8002,False,"Checkbox",v.Screen.Form!chkUsePowderCoating.CheckedAsBoolean,0,-1,v.Ambient.Date,12:00:00 AM)
+	'Use Wire Labor Runtime
+	F.Global.Registry.AddValue("SUPERVSR",V.Caller.CompanyCode,"USEWIRELABORRUNTIME",4986,8003,False,"Checkbox",v.Screen.Form!chkUseWireLaborRuntime.CheckedAsBoolean,0,-1,v.Ambient.Date,12:00:00 AM)	
+	'Copy Sort Code
+	F.Global.Registry.AddValue("SUPERVSR",V.Caller.CompanyCode,"DONOTCOPYSORTCODE",4986,8004,False,"Checkbox",v.Screen.Form!chkDoNotCopySortCode.CheckedAsBoolean,0,-1,v.Ambient.Date,12:00:00 AM)	
+	
+f.Intrinsic.Control.catch
+	f.Intrinsic.Control.CallSub(catching,"sub",v.Ambient.CurrentSubroutine,"errorno",v.Ambient.ErrorNumber,"errordesc",v.Ambient.ErrorDescription)
+f.Intrinsic.Control.EndTry
+Program.Sub.write_options.End
+
+Program.Sub.Select_All.Start
+F.Intrinsic.Control.Try
+
+	f.Intrinsic.Control.If(v.DataTable.PRODLINE.Exists,=,False)
+		f.Intrinsic.Control.ExitSub
+	f.Intrinsic.Control.EndIf
+	f.Intrinsic.Control.If(v.DataTable.PRODLINE.RowCount,=,0)
+		f.Intrinsic.Control.ExitSub
+	f.Intrinsic.Control.EndIf
+	
+	f.Data.DataTable.SetValue("PRODLINE",-1,"Selected",True)
+	f.Data.DataTable.AcceptChanges("PRODLINE")
+
+f.Intrinsic.Control.catch
+	f.Intrinsic.Control.CallSub(catching,"sub",v.Ambient.CurrentSubroutine,"errorno",v.Ambient.ErrorNumber,"errordesc",v.Ambient.ErrorDescription)
+f.Intrinsic.Control.EndTry
+Program.Sub.Select_All.End
+
+Program.Sub.DeSelect_All.Start
+F.Intrinsic.Control.Try
+
+	f.Intrinsic.Control.If(v.DataTable.PRODLINE.Exists,=,False)
+		f.Intrinsic.Control.ExitSub
+	f.Intrinsic.Control.EndIf
+	f.Intrinsic.Control.If(v.DataTable.PRODLINE.RowCount,=,0)
+		f.Intrinsic.Control.ExitSub
+	f.Intrinsic.Control.EndIf
+	
+	f.Data.DataTable.SetValue("PRODLINE",-1,"Selected",False)
+	f.Data.DataTable.AcceptChanges("PRODLINE")
+
+f.Intrinsic.Control.catch
+	f.Intrinsic.Control.CallSub(catching,"sub",v.Ambient.CurrentSubroutine,"errorno",v.Ambient.ErrorNumber,"errordesc",v.Ambient.ErrorDescription)
+f.Intrinsic.Control.EndTry
+Program.Sub.DeSelect_All.End
+
+Program.Sub.cmdHelpTooling_Click.Start
+f.Intrinsic.UI.Msgbox("This option allows you to embed tooling charges at any level in the BOM.  Set the item category to Reference in the BOM and the tooling will be amoratized in the cost of the part. Set the item category to Exclude  and it will be extracted from the bom, the cost totalled up, and an Additional Charge will be added to the quote.","Embedded Tooling")
+Program.Sub.cmdHelpTooling_Click.End
+
+Program.Sub.cmdHelpQuoteUpload_Click.Start
+f.Intrinsic.UI.Msgbox("The Estimator uses Web Importer to upload Quote. However, the Web Importer can only be run by ONLY 1 instance at a time for a Company Code. The Estimator does not use a Watch Dog and can manage the instances without any problem. However, if you are implementing the Web Importer in other project that uses a Watch Dog to manage uploading Quote/Order for a Company Code, you can check this checkbox to let the Estimator Quote Upload be handled by that Watch Dog. Please contact GSS if you need further parameter setup for Web Importer.","Use Other Web Importer Watch Dog")
+Program.Sub.cmdHelpQuoteUpload_Click.End
+
+Program.Sub.cmdHelpCutList_Click.Start
+f.Intrinsic.UI.Msgbox("This feature allows displaying a subgrid of cutlist items in the Router grid. The option Run1Shot > CUSTOM > Use Cutlist must be turned on.","Use Cutlist Option")
+Program.Sub.cmdHelpCutList_Click.End
+
+Program.Sub.chkAutoDisplayCutList_Click.Start
+F.Intrinsic.Control.Try
+	v.Local.bUseCutList.Declare
+
+	f.Intrinsic.Control.BlockEvents
+		f.Intrinsic.Control.If(v.Screen.Form!chkAutoDisplayCutList.Value,=,1)
+			'Run1Shot > CUSTOM > Use Cutlist
+			F.Global.General.ReadOption("402471",0,False,"0000",V.Local.bUseCutList)
+			f.Intrinsic.Control.If(v.Local.bUseCutList.Not)
+				f.Intrinsic.UI.Msgbox("Cutlist option is not activated. Please activate Run1Shot > CUSTOM > Cutlist","Attention")
+				gui.Form.chkAutoDisplayCutList.Value(0)
+			f.Intrinsic.Control.EndIf	
+		f.Intrinsic.Control.EndIf
+	f.Intrinsic.Control.UnBlockEvents
+	
+f.Intrinsic.Control.catch
+	f.Intrinsic.Control.CallSub(catching,"sub",v.Ambient.CurrentSubroutine,"errorno",v.Ambient.ErrorNumber,"errordesc",v.Ambient.ErrorDescription)
+f.Intrinsic.Control.EndTry
+Program.Sub.chkAutoDisplayCutList_Click.End
+
+Program.Sub.AddPL.Start
+F.Intrinsic.Control.Try
+	v.Local.sColIndex.Declare
+	v.Local.sPL.Declare
+	v.Local.sDescr.Declare
+	v.Local.sRet.Declare
+	v.Local.sFilter.Declare
+	
+	gui.Form..Enabled(False)
+	gui.PL.txtPL.Text("")
+	gui.PL.txtDescr.Text("")
+	gui.PL..Visible(True)
+	gui.PL.txtPL.SetFocus
+	gui.PL..WaitForDismiss
+	f.Intrinsic.Control.If(v.Args.sOK,=,"N")
+		gui.Form..Enabled(True)
+		gui.Form..AlwaysOnTop(True)
+		gui.Form..AlwaysOnTop(False)
+		f.Intrinsic.Control.ExitSub
+	f.Intrinsic.Control.Else	
+		v.Local.sPL.Set(v.Screen.PL!txtPL.Text.Trim)
+		v.Local.sDescr.Set(v.Screen.PL!txtDescr.Text.Trim)
+		Gui.Form.GGC_ProdLines.GetColumnIndexByName("PRODLINE","PL",v.Local.sColIndex)
+		'Add to grid
+		f.Intrinsic.String.Build("PL = '{0}'",v.Local.sPL.UCase,v.Local.sFilter)
+		f.Data.DataTable.Select("PRODLINE",V.Local.sFilter,v.Local.sRet)
+		f.Intrinsic.Control.If(v.Local.sRet,=,"***NORETURN***")
+			f.Data.DataTable.AddRow("PRODLINE","PL",v.Local.sPL.UCase,"Description",v.Local.sDescr)			
+			gui.Form.GGC_ProdLines.FocusCell("GV_PRODLINE",v.DataTable.PRODLINE.RowCount--,v.Local.sColIndex)	
+		F.Intrinsic.Control.Else
+			f.Intrinsic.String.Split(v.Local.sRet,"*!*",v.Local.sRet)
+			V.Local.sRet.Set(V.Local.sRet(0))
+			gui.Form.GGC_ProdLines.FocusCell("GV_PRODLINE",v.Local.sRet,v.Local.sColIndex)	
+		f.Intrinsic.Control.EndIf
+
+		gui.Form..Enabled(True)
+		gui.Form..AlwaysOnTop(True)
+		gui.Form..AlwaysOnTop(False)			
+	f.Intrinsic.Control.EndIf
+	
+f.Intrinsic.Control.catch
+	f.Intrinsic.Control.CallSub(catching,"sub",v.Ambient.CurrentSubroutine,"errorno",v.Ambient.ErrorNumber,"errordesc",v.Ambient.ErrorDescription)
+f.Intrinsic.Control.EndTry
+Program.Sub.AddPL.End
+
+Program.Sub.cmdCancelPL_Click.Start
+F.Intrinsic.Control.Try
+
+	f.Intrinsic.Variable.AddRV("sOK","N")
+	gui.PL..Visible(False)
+	
+f.Intrinsic.Control.catch
+	f.Intrinsic.Control.CallSub(catching,"sub",v.Ambient.CurrentSubroutine,"errorno",v.Ambient.ErrorNumber,"errordesc",v.Ambient.ErrorDescription)
+f.Intrinsic.Control.EndTry
+Program.Sub.cmdCancelPL_Click.End
+
+Program.Sub.cmdOKPL_Click.Start
+F.Intrinsic.Control.Try
+
+	f.Intrinsic.Variable.AddRV("sOK","Y")
+	gui.PL..Visible(False)	
+	
+f.Intrinsic.Control.catch
+	f.Intrinsic.Control.CallSub(catching,"sub",v.Ambient.CurrentSubroutine,"errorno",v.Ambient.ErrorNumber,"errordesc",v.Ambient.ErrorDescription)
+f.Intrinsic.Control.EndTry
+Program.Sub.cmdOKPL_Click.End
+
+Program.Sub.cmdResetWebImporter_Click.Start
+F.Intrinsic.Control.Try
+
+	f.Intrinsic.UI.InvokeWaitDialog("Resetting...")
+	F.Global.Registry.AddValue("SUPERVSR",V.Caller.CompanyCode,"WEBIMPORTER",4986,"2001",False,"FREE",False,0,-1,v.Ambient.Date,12:00:00 AM)
+	f.Intrinsic.UI.CloseWaitDialog
+	f.Intrinsic.Control.CallSub(cmdReadQuoteRegistryValue_Click)
+	
+f.Intrinsic.Control.catch
+	f.Intrinsic.Control.CallSub(catching,"sub",v.Ambient.CurrentSubroutine,"errorno",v.Ambient.ErrorNumber,"errordesc",v.Ambient.ErrorDescription)
+f.Intrinsic.Control.EndTry
+Program.Sub.cmdResetWebImporter_Click.End
+
+Program.Sub.cmdResetRouterUpload_Click.Start
+F.Intrinsic.Control.Try
+	
+	f.Intrinsic.UI.InvokeWaitDialog("Resetting Router Upload Registry Value to FREE....")
+	
+	F.Global.Registry.AddValue("SUPERVSR",V.Caller.CompanyCode,"ROUTERUPLOAD",4986,"2003",False,"FREE",False,0,-1,v.Ambient.Date,12:00:00 AM)
+	f.Intrinsic.UI.CloseWaitDialog
+	f.Intrinsic.Control.CallSub(cmdReadRouterRegValue_Click)
+	
+f.Intrinsic.Control.catch
+	f.Intrinsic.Control.CallSub(catching,"sub",v.Ambient.CurrentSubroutine,"errorno",v.Ambient.ErrorNumber,"errordesc",v.Ambient.ErrorDescription)
+f.Intrinsic.Control.EndTry
+Program.Sub.cmdResetRouterUpload_Click.End
+
+Program.Sub.cmdReadRouterRegValue_Click.Start
+F.Intrinsic.Control.Try
+	v.Local.sVal.Declare
+	
+	f.Intrinsic.UI.InvokeWaitDialog("Reading Router Upload Registry Value...")
+	
+	F.Global.Registry.ReadValue(v.Global.sSupervsrID,V.Caller.CompanyCode,"ROUTERUPLOAD",4986,2003,5,"",V.local.sVal)
+	gui.Form.txtCurrentRouterRegValue.Text(v.Local.sVal)
+	
+	f.Intrinsic.UI.CloseWaitDialog
+	
+f.Intrinsic.Control.catch
+	f.Intrinsic.Control.CallSub(catching,"sub",v.Ambient.CurrentSubroutine,"errorno",v.Ambient.ErrorNumber,"errordesc",v.Ambient.ErrorDescription)
+f.Intrinsic.Control.EndTry
+	
+Program.Sub.cmdReadRouterRegValue_Click.End
+
+Program.Sub.cmdReadQuoteRegistryValue_Click.Start
+F.Intrinsic.Control.Try
+	v.Local.sVal.Declare
+	
+	f.Intrinsic.UI.InvokeWaitDialog("Reading Web Importer Registry Value...")
+	
+	F.Global.Registry.ReadValue(v.Global.sSupervsrID,V.Caller.CompanyCode,"WEBIMPORTER",4986,2001,5,"",V.local.sVal)
+	gui.Form.txtQuoteRegistryValue.Text(v.Local.sVal)
+	
+	f.Intrinsic.UI.CloseWaitDialog
+	
+f.Intrinsic.Control.catch
+	f.Intrinsic.Control.CallSub(catching,"sub",v.Ambient.CurrentSubroutine,"errorno",v.Ambient.ErrorNumber,"errordesc",v.Ambient.ErrorDescription)
+f.Intrinsic.Control.EndTry
+Program.Sub.cmdReadQuoteRegistryValue_Click.End
