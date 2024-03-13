@@ -1,0 +1,109 @@
+Program.Sub.Preflight.Start
+v.Global.bStop.Declare
+v.Global.sSUPERVSRid.Declare
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+f.Intrinsic.Control.Try
+	v.Local.sError.Declare
+	V.Local.sCurrentPID.Declare
+	v.Local.bIsRunning.Declare
+	
+	F.Intrinsic.Control.If(V.Caller.Hook,<>,38120)
+		F.Intrinsic.Control.ExitSub
+	F.Intrinsic.Control.EndIf
+	
+	f.Global.Security.GetUserId("SUPERVSR",V.Caller.CompanyCode,V.Global.sSUPERVSRid)
+	
+	F.Global.Registry.ReadValue(v.Global.sSUPERVSRid,V.Caller.CompanyCode,"WEBIMPORTWATCHDOG",4986,2004,5,"",V.local.sCurrentPID)
+	
+	F.Intrinsic.Control.If(v.Local.sCurrentPID.UCase,=,"STOP")
+		F.Intrinsic.Control.CallSub(Unload)
+	F.Intrinsic.Control.EndIf
+	
+	f.Intrinsic.Control.If(v.Local.sCurrentPID.Trim,=,"")
+		F.Global.Registry.AddValue("SUPERVSR",V.Caller.CompanyCode,"WEBIMPORTWATCHDOG",4986,"2004",False,V.Ambient.PID,False,0,-1,v.Ambient.Date,12:00:00 AM)
+		f.Intrinsic.Control.CallSub(Watch)
+	'Check if PID is running
+	f.Intrinsic.Control.Else
+		f.Intrinsic.task.PIDRunning(v.Local.sCurrentPID.Trim,v.Local.bIsRunning)
+		f.Intrinsic.Control.If(v.Local.bIsRunning)
+			f.Intrinsic.Control.CallSub(Unload)
+		F.Intrinsic.Control.Else
+			F.Global.Registry.AddValue("SUPERVSR",V.Caller.CompanyCode,"WEBIMPORTWATCHDOG",4986,"2004",False,V.Ambient.PID,False,0,-1,v.Ambient.Date,12:00:00 AM)
+			f.Intrinsic.Control.CallSub(Watch)			
+		f.Intrinsic.Control.EndIf
+	f.Intrinsic.Control.EndIf		
+
+f.Intrinsic.Control.Catch
+	f.Intrinsic.Control.CallSub("Write_WatchDog_Fail")
+f.Intrinsic.Control.EndTry
+Program.Sub.Main.End
+
+Program.Sub.Unload.Start
+f.Intrinsic.Control.End
+Program.Sub.Unload.End
+
+Program.Sub.Watch.Start
+f.Intrinsic.Control.Try
+	v.Local.sToken.Declare
+	v.Local.dTokenTime.Declare
+	v.Local.iSec.Declare
+	v.Local.sStop.Declare
+	v.Local.sCurrentPID.Declare
+	v.Local.bIsDate.Declare
+
+	f.Intrinsic.Control.DoUntil(v.Global.bStop)
+	
+		F.Global.Registry.ReadValue(v.Global.sSUPERVSRid,V.Caller.CompanyCode,"WEBIMPORTWATCHDOG",4986,2004,5,"",V.local.sCurrentPID)
+		
+		F.Intrinsic.Control.If(v.Local.sCurrentPID.UCase,=,"STOP")
+			F.Intrinsic.Control.CallSub(Unload)
+		F.Intrinsic.Control.EndIf
+		
+		'Check the last time the web importer token is put in the registry
+		F.Global.Registry.ReadValue(v.Global.sSUPERVSRid,V.Caller.CompanyCode,"WEBIMPORTER",4986,2001,5,"",V.local.sToken)
+	
+		F.Intrinsic.Control.If(v.Local.sToken.Trim,<>,"",AND,v.Local.sToken.Trim,<>,"FREE")
+			'Check Time Stamp
+			f.Intrinsic.String.Split(v.Local.sToken,"***",v.Local.sToken)
+			f.Intrinsic.Control.If(v.Local.sToken.UBound,>=,2)
+				f.Intrinsic.Date.IsDate(v.Local.sToken(2).Trim,v.Local.bIsDate)
+				
+				'This is invalid date, reset
+				f.Intrinsic.Control.If(v.Local.bIsDate.Not)
+					'Reset Token
+					F.Global.Registry.AddValue("SUPERVSR",V.Caller.CompanyCode,"WEBIMPORTER",4986,"2001",False,"FREE",False,0,-1,v.Ambient.Date,12:00:00 AM)
+				
+				'Date is valid, go check 
+				f.Intrinsic.Control.Else
+				
+					v.Local.dTokenTime.Set(v.Local.sToken(2).Trim)
+					F.Intrinsic.Date.DateDiff("S",v.Local.dTokenTime,v.Ambient.Now,v.Local.iSec)
+					f.Intrinsic.Control.If(v.Local.iSec,>,60)
+						'Reset Token
+						F.Global.Registry.AddValue("SUPERVSR",V.Caller.CompanyCode,"WEBIMPORTER",4986,"2001",False,"FREE",False,0,-1,v.Ambient.Date,12:00:00 AM)
+					f.Intrinsic.Control.EndIf				
+				
+				f.Intrinsic.Control.EndIf				
+			
+			'This is invalid token, go ahead and reset
+			f.Intrinsic.Control.Else
+				F.Global.Registry.AddValue("SUPERVSR",V.Caller.CompanyCode,"WEBIMPORTER",4986,"2001",False,"FREE",False,0,-1,v.Ambient.Date,12:00:00 AM)
+			f.Intrinsic.Control.EndIf
+			
+		F.Intrinsic.Control.EndIf
+		
+		f.Intrinsic.UI.Sleep(3)
+	
+	f.Intrinsic.Control.Loop
+	
+
+f.Intrinsic.Control.CallSub
+	f.Intrinsic.Control.CallSub("Write_WatchDog_Fail")
+f.Intrinsic.Control.EndTry
+Program.Sub.Watch.End
+
+Program.Sub.Write_WatchDog_Fail.Start
+
+Program.Sub.Write_WatchDog_Fail.End
