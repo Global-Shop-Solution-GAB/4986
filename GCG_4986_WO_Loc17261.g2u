@@ -1,0 +1,79 @@
+Program.Sub.Preflight.Start
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+f.Intrinsic.Control.Try
+	v.Local.sSql.Declare
+	v.Local.iCnt.Declare
+	v.Local.sHold.Declare
+	
+	'Script 1 label
+	f.Intrinsic.Control.If(v.Caller.Hook,=,17261)
+		F.Intrinsic.String.Build("Please wait for changing WO location for WO: {0}-{1}",v.Passed.009000,v.Passed.009001,v.Local.sHold)
+		f.Intrinsic.UI.InvokeWaitDialog(v.Local.sHold)
+		f.ODBC.Connection!conx.opencompanyconnection
+		f.Data.Dictionary.CreateFromSQL("dictLoc","conx","Select Location,Rtrim(Location) from V_Locations where Location <> '' Order by Location",True)
+		f.Data.Dictionary.SetDefaultReturn("dictLoc","NORETURN")
+		f.Intrinsic.Control.CallSub(Change_Location)		
+		f.ODBC.Connection!conx.Close
+		f.Intrinsic.UI.CloseWaitDialog		
+	f.Intrinsic.Control.EndIf	
+
+f.Intrinsic.Control.catch
+	f.Intrinsic.Control.CallSub(Catching,"sub",v.Ambient.CurrentSubroutine,"errorno",v.Ambient.ErrorNumber,"errordesc",v.Ambient.ErrorDescription)
+	f.Intrinsic.Control.CallSub(unload)
+f.Intrinsic.Control.EndTry	
+Program.Sub.Main.End
+
+Program.Sub.catching.Start
+v.Local.sError.declare(string)
+F.Intrinsic.String.Build("Project: {0}{1}Subroutine: {2}{1}Error Occurred {3} with description {4}","GCG_4986_WO_Loc.g2u",V.Ambient.NewLine,v.Args.sub,V.Args.errorno,V.args.errordesc,V.Local.sError)
+f.Intrinsic.UI.Msgbox(v.Local.sError)
+Program.Sub.catching.End
+
+Program.Sub.unload.Start
+f.Intrinsic.Control.End
+Program.Sub.unload.End
+
+Program.Sub.Change_Location.Start
+f.Intrinsic.Control.Try
+	v.Local.sSql.Declare
+	v.Local.iCount.Declare
+	v.Local.sLoc.Declare
+	v.Local.sHold.Declare
+	
+	f.Intrinsic.String.Build("Select Top 1 suffix, router, location, date_due, Part from v_job_header where job = '{0}' and suffix = '{1}' ",v.Passed.009000,v.Passed.009001,v.Local.sSql)
+	f.Intrinsic.Control.If(v.DataTable.Job.Exists)
+		f.Data.DataTable.Close("Job")
+	f.Intrinsic.Control.EndIf	
+	f.Data.Datatable.CreateFromSQL("Job","conx",v.Local.sSql,True)
+	
+	f.Intrinsic.Control.if(v.DataTable.Job.RowCount,>,0)
+	
+		f.Intrinsic.String.Build("select rtrim(part_customer) from v_router_header where router = '{0}'",v.DataTable.Job(0).router!FieldValString,v.Local.sSql)
+		f.ODBC.Connection!conx.ExecuteAndReturn(v.Local.sSql,v.Local.sLoc)
+		f.Intrinsic.Control.If(v.Ambient.ExecuteAndReturnEOF.Not)
+			F.Intrinsic.Control.If(v.Dictionary.dictLoc![v.Local.sLoc.Trim],<>,"NORETURN",OR,V.Local.sLoc.Trim,=,"")
+				'Update location
+				F.Intrinsic.String.Build("UPDATE JOB_HEADER SET LOCATION = '{0}' where JOB = '{1}' and SUFFIX = '{2}'",V.Local.sLoc.Trim,v.Passed.009000,v.Passed.009001,V.Local.sSql)
+				F.ODBC.Connection!conx.Execute(v.Local.sSql)
+				'reschedule the job			
+				f.Global.APS.ScheduleJob(v.Passed.009000,v.Passed.009001,"B",V.DataTable.Job(0).DATE_DUE!FIELDVAL)	
+			f.Intrinsic.Control.Else
+				f.Intrinsic.UI.Msgbox("Invalid Location at Router header","Attention")				
+			f.Intrinsic.Control.EndIf	
+		f.Intrinsic.Control.Else
+			f.Intrinsic.String.Build("No router found for WO: {0}-{1} with Part {2}",v.Passed.009000,v.Passed.009001,V.DataTable.Job(0).Part!FieldValString,v.Local.sHold)
+			f.Intrinsic.Control.msgbox(v.Local.sHold,"Attention")
+		f.Intrinsic.Control.EndIf	
+		
+	f.Intrinsic.Control.Else
+		f.Intrinsic.String.Build("No WO found for {0}-{1}",v.Passed.009000,v.Passed.009001,v.Local.sHold)
+			f.Intrinsic.Control.msgbox(v.Local.sHold,"Attention")
+	f.Intrinsic.Control.EndIf
+	
+f.Intrinsic.Control.catch
+	f.Intrinsic.Control.CallSub(Catching,"sub",v.Ambient.CurrentSubroutine,"errorno",v.Ambient.ErrorNumber,"errordesc",v.Ambient.ErrorDescription)
+	f.Intrinsic.Control.CallSub(unload)
+f.Intrinsic.Control.EndTry	
+Program.Sub.Change_Location.End
