@@ -1,0 +1,76 @@
+Program.Sub.Preflight.Start
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+f.Intrinsic.Control.Try
+	v.Local.sSql.Declare
+	v.Local.iCnt.Declare
+	
+	'At AWOG -  Fires after Schedule Selected data processing completes 
+	f.Intrinsic.Control.If(v.Caller.Hook,=,53212)	
+		f.Intrinsic.UI.InvokeWaitDialog("Please wait for changing WO location...")
+		f.ODBC.Connection!conx.opencompanyconnection
+		f.Data.Dictionary.CreateFromSQL("dictLoc","conx","Select Location,Rtrim(Location) from V_Locations where Location <> '' Order by Location",True)
+		f.Data.Dictionary.SetDefaultReturn("dictLoc","NORETURN")
+		
+		f.Intrinsic.String.Build("Select WO,Part from Auto_Work_Order where UserID = '{0}' and WO_Flag = 1",v.Caller.User,v.Local.sSql)
+		f.Data.DataTable.CreateFromSQL("WO","conx",v.Local.sSql,True)
+		f.Intrinsic.Control.For(v.Local.iCnt,0,v.DataTable.WO.RowCount--,1)
+			f.Intrinsic.Control.CallSub(Change_Location,"Job",v.DataTable.WO(v.Local.iCnt).WO!FieldValString,"Part",v.DataTable.WO(v.Local.iCnt).Part!FieldValTrim)
+		f.Intrinsic.Control.Next(v.Local.iCnt)
+		f.ODBC.Connection!conx.Close
+		f.Intrinsic.UI.CloseWaitDialog		
+	f.Intrinsic.Control.EndIf	
+
+f.Intrinsic.Control.catch
+	f.Intrinsic.Control.CallSub(Catching,"sub",v.Ambient.CurrentSubroutine,"errorno",v.Ambient.ErrorNumber,"errordesc",v.Ambient.ErrorDescription)
+	f.Intrinsic.Control.CallSub(unload)
+f.Intrinsic.Control.EndTry	
+Program.Sub.Main.End
+
+Program.Sub.catching.Start
+v.Local.sError.declare(string)
+F.Intrinsic.String.Build("Project: {0}{1}Subroutine: {2}{1}Error Occurred {3} with description {4}","GCG_4986_WO_Loc.g2u",V.Ambient.NewLine,v.Args.sub,V.Args.errorno,V.args.errordesc,V.Local.sError)
+f.Intrinsic.UI.Msgbox(v.Local.sError)
+Program.Sub.catching.End
+
+Program.Sub.unload.Start
+f.Intrinsic.Control.End
+Program.Sub.unload.End
+
+Program.Sub.Change_Location.Start
+f.Intrinsic.Control.Try
+	v.Local.sSql.Declare
+	v.Local.iCount.Declare
+	v.Local.sLoc.Declare
+	v.Local.sHold.Declare
+	
+	f.Intrinsic.String.Build("Select suffix, router, location, date_due from v_job_header where job = '{0}' and suffix <> '000' ",v.Args.Job,v.Local.sSql)
+	f.Intrinsic.Control.If(v.DataTable.Jobs.Exists)
+		f.Data.DataTable.Close("Jobs")
+	f.Intrinsic.Control.EndIf	
+	f.Data.Datatable.CreateFromSQL("Jobs","conx",v.Local.sSql,True)
+	
+	f.Intrinsic.Control.For(v.Local.iCount,0,v.DataTable.Jobs.RowCount--,1)
+		f.Intrinsic.String.Build("select rtrim(part_customer) from v_router_header where router = '{0}'",v.DataTable.Jobs(v.Local.iCount).router!FieldValString,v.Local.sSql)
+		f.ODBC.Connection!conx.ExecuteAndReturn(v.Local.sSql,v.Local.sLoc)
+		f.Intrinsic.Control.If(v.Ambient.ExecuteAndReturnEOF.Not)
+			F.Intrinsic.Control.If(v.Dictionary.dictLoc![v.Local.sLoc.Trim],<>,"NORETURN",OR,V.Local.sLoc.Trim,=,"")
+				'f.Intrinsic.Control.If(v.Local.sLoc.Trim,<>,v.DataTable.Jobs(v.Local.iCount).LOCATION!FIELDVALTRIM)
+					F.Intrinsic.String.Build("UPDATE JOB_HEADER SET LOCATION = '{0}' where JOB = '{1}' and SUFFIX = '{2}'",V.Local.sLoc.Trim,v.Args.Job,V.DataTable.Jobs(V.Local.iCount).SUFFIX!FIELDVALTRIM,V.Local.sSql)
+					F.ODBC.Connection!conx.Execute(v.Local.sSql)
+					'reschedule the job			
+					f.Global.APS.ScheduleJob(v.Args.Job,v.DataTable.Jobs(v.Local.iCount).suffix!fieldvaltrim,"B",V.DataTable.Jobs(V.Local.iCount).DATE_DUE!FIELDVAL)
+				'f.Intrinsic.Control.EndIf
+			f.Intrinsic.Control.EndIf	
+		f.Intrinsic.Control.Else
+			f.Intrinsic.String.Build("No router found for Job: '{0}' with Part '{1}'",v.Args.Job,v.Args.Part,v.Local.sHold)
+			f.Intrinsic.Control.msgbox(v.Local.sHold,"Attention")
+		f.Intrinsic.Control.EndIf
+	f.Intrinsic.Control.Next(v.Local.iCount)
+
+f.Intrinsic.Control.catch
+	f.Intrinsic.Control.CallSub(Catching,"sub",v.Ambient.CurrentSubroutine,"errorno",v.Ambient.ErrorNumber,"errordesc",v.Ambient.ErrorDescription)
+	f.Intrinsic.Control.CallSub(unload)
+f.Intrinsic.Control.EndTry	
+Program.Sub.Change_Location.End
