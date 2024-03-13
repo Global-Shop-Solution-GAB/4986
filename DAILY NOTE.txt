@@ -1,0 +1,159 @@
+*********Errors from smartsheets********************
+1/Return ***CANCEL*** OOB to the Router + Rev textboxes when user click close the browser screen not selecting
+2/Router Type drop-down list values
+3/Return ***CANCEL*** OOB when not select an item from Router Browser
+4/Router Sequence from Add New Part
+5/Inactive Part Router/BOM select error
+6/KEN010-22020200901-0
+7/Don modified the GCG_4986_OU_WatchDog to run Hourly
+8/Error - BOM Compare button
+9/BOM Save error
+10/Save Router only button error
+
+*****************Others code bugs or design/algorithm changed to make codes more solid, that I found and cleanded *****************
+Apart from the errors reported in the smartsheet that I mentioned above, this section below will list the items that I also changed. There are 2 types:
+'a. Bugs: errors that we found in the old version
+'b. Design/algorithm changed to make codes more solid: this is to avoid potential bugs that may happen in the future and we forecast it clearly by looking at the codes
+
+1/ v.local.sError everywhere
+2/ Change Return Browser to v.local.sRet.IsCancel,=,False. Also we don't have to check IsInstring !*!
+3/ Change the excecuteAndReturn check to v.ambient.ExecuteOfReturnEOF
+4D/ rename optOp to optOuts to be consistent.
+5D/ Open only 1 connection is easier to manage in a big project like this, although user may leave the program open for a long time, so as the connection. 
+However, with one connection, the UNLOAD sub is set up to assure that the connection will be closed whenever you unload the program or an error is thrown (by using If v.ODBC.conx.State = 1 Then close)
+In contrast, opening multiple connections within multiple sub every time you need a connection has 3 drawbacks:
+5.1/ More line of codes, and paying more attention to close the connection
+5.2/ Recursive call must be carefully used as the second call will crash if the same connection name is open
+5.3/ You still have more risk that the sub crashes leaving the connection not closed and becomes a garbage object in memory. You may put the connection closing name in the catching of the sub, but it will give you messier codes
+	
+6D/ Unziping files does not work for some reason, so copy individual files from Gas folder. So we need to copies these files in the GAP entry in folder Global/Plugins/Gab/Gas (not the zip file)	
+7/ Check files existed before setting the logo/pictures. We never know the files are deleted for some reason.
+8D/ User permission: with 0 permission, the user is expected to view only, but some view actions lead to activate some buttons unexpectedly, which are not assigned to this type of user (esp enable/disable button Commit)
+=> should check this again
+
+8D/ Putting If statement to close Dictionaries/Datatables/Dataviews before creating/opening. This is top security, otherwise, error throws if you click refresh button
+9D/ Create custom folder by company code => this will avoid conflict of CCC
+10D/ Refactor MakeVisible the left grids when clicking a radio button
+
+11/ Delete unused sub
+12/ Check if grid exist/If Child table has more than 1 record/If user selects a row when right clicking. Otherwise, will throw error
+13/ Check if row selected by string variable sRow (not by iRow. iRow will not say if a row is selected)
+14/ Add Place Row Above and Place Row Under to the right click context menu (Current version cannot move the row to the bottom. For example, 005000 is the bottom sequence of the normal section and you want to move the 004000 below 005000. The old codes could not do that)
+15/ Remove the place row function of the left click sub, because this is not consistent and ovelaps the left click that opens context menu to delete/copy SubComponent
+
+16/ corrected codes in sub MaterialMenuClick: change source code to M/F will drop the sequence to 99 section
+17/ Added codes in sub MaterialMenuClick: when changing source code of the 99 sequence to P/J/M, move that row back to normal sequences	
+QUESTIONS: when changing the source code of the Material, should we update inventory source code and also Material grid table? Otherwise, when pulling Bom/Router from the core after updating, the program will base in inventory master, and it is not what we updated.
+
+18/ Deleted cmdNewBom_Click because it is not used anywhere
+19D/ Add Security check when user wants to open core screen from the custom program by using CheckUserAccessIPM, for example SupplyDemand. They must have access to that menu item
+
+19/ User's right = 0, should disable context menu item
+20/ Delete Context Menu labor because it is not used anywhere
+21/ Delete v.local.sNodeList that is created and built but not used anywhere
+22/ Move UpdateDictionaries and Refresh_SeqViews from GetBom into TreeViewKeysSet, because only TreeviewKeySet is successful, we will need UpdateDictionaries and Refresh_SeqViews. 
+
+23.1/ Added codes to check the sequence 0000 in the getbom sub, if not existed, exitsub, otherwise the treeview building will break.
+More details:  not only that the Bom table must have at least 1 record, but also this record must be sequence 0000.
+In Bom_Master table, some Bom data pulled from database does not have parent record 0000. Why?
+Because the Bom_Master table sql query only pulls data with Inactive flag = False (<> 1). 
+In case the parent is flag as Inactive at the core screen, only the sequence 0000 is flag as inactive, the children are not.
+So in this case, the program using the quey mention above will pull a bunch of children records, and will not pull the parent record with sequence 0000.
+So we don't have the sequence 0000.
+
+23.2/ So we removed the Bom Inactive flag out of the sql query to get the Bom_Master, as well as within the Bom tree browser. 
+The Estimator will work the same as the core bom screen that pulls all bom including inactive Bom.
+
+check the sequence blank
+
+24D/ Question: Does the core screen allow the manufacture part (Mfg-to-Stock, or MFG-to-Job) to be in a material sequence of a router?
+If yes, when user browses a router from router browser, and displays in the Estimator, the Estimator should not drop those sequences to the bottom and renamed sequences as 99XXXXXX
+
+25D/Adding sub within the getbom: ReIndex_Bom_WhatSee_Is_WhatGet. This sub will reorder Bom to have a better visibility *** what you see is what you get
+
+25D/ Getbom sub: added codes: for temp_return, CH_Index must be reindexed before adding to Bom. This is because in the Reindex sub, I recreate the table Bom.
+So the expression column CH_Index must be broken, so we have to reinforce by adding again the expression column CH_Index before merging to Bom
+
+26/We have logic error when doing the following:
+- Pull an existing Bom/Router
+- Add a material sequence to the Router
+- Click commit to the Bom
+- Message box asking if we want to save the Router to the existing router in the core. Yes. Then the router will be updated to the core.
+- The Bom tree will display the new material (It may show the material, but in wrong order. We will come back at this later)
+- For some reason, we don't click the Save Bom button which proceeds to the Bom Compare. Or we may go to the Bom Compare but really do not update the Bom to the core
+- We terminate the program without updating the Bom with the new material sequence.
+- We reopen the program, the router will not contain the material sequence, even though the core has it.
+This logic error is due to the way we pull data to display. In getbom sub, we go from Bom_Master left join to Router, so in this case, Router has sequence, Bom has not yet.
+On the other hand, if we delete a material of a Router sequence, we save the Router, and do not save the Bom. Next opening, the router view will have the material sequence dropped to the 99XXXX sequence (because the sequence does not exist in the Router but the Bom)
+
+27/ Button Commit To Bomb: does not work properly. Modified: get the Temp table as the level 1 and rebuild the Bom tree by using the GetBom with the Temp as the level 1. 
+We don't use the mechanism to compare deleted records/new records, etc.
+
+
+28/ When the core router screen is open, and the estimator tries to update the router, will throw error. Should check lock for router?
+
+29/ Should check delete records of Router when commit to bom clicked, core is not updated
+
+30/ Unrefactored the sub buildchild_data. This sub now becomes 2 sub: buildRouterGrid_From_RtrBrwCase3 called by Router Browser case 3, 
+and  buildRouterGrid_From_TrvNodeClick called by Treeview Node click. This will be easier to maintain and verify condition before calling sub,
+prevent from throwing error.
+
+Error at new router/bom when closing browser of UM
+
+Get back later: refresh_part_info
+Get back later: RemSequence
+
+will retire validate UM
+left click with Delete + Copy SubComp should be removed (overlap with Rowcell click)
+Dictionary by Part, how about location?
+
+Definition of Children node complete flag:
+Comments from old version
+['need to see if this child node is also a parent, and if so, is that BOM complete?
+'if this item is just a component, is it's parent BOM complete.
+'checking both ensures that we're flagging the line correctly in the tree]
+=> So 1 flag is used for 2 purposes => make confusion ?
+When pulling Bom data from core (getBom) why has to resequence normal router? We don't want that right? We only want to resequence the manufacture parts only (source code M and F)
+
+31/ Remove cellBrowseUM,cellBrowseOPCode,lblFocusParent_Click as it is not used anywhere
+32/ getTextCode for context menu of router grid: check grid ready/row selected before move on. No need to loop sRows as the grid is not multiselect
+33/ Unrefactored cmdBrwRouter_Click, make the FromTyped to another sub, make it easier to maintain
+34/txtFocusRev_LostFocus: no need to check Global.iRight > 0, as with iRight = 0, we still need to view the Router/Bom
+35/ Use SQL friendly for string variable to avoid SQL error from select where ... = variable
+36/ Half of the variables are not used but declared, so deleted.
+37/ Replace gui.Form..Show with gui.Form..Visible(True). This will avoid scaling effect in system having scaling display > 100%. Applied to all other forms.
+38/ Corrected Catching sub and Unload sub
+39/ Refined picRefresh_Click: added refreshing Build_Dictionaries
+40/ GetLabor and GetOutside: need to delete tables before getting labor, otherwise will have duplicate records
+41/ GetOptions: added alert if option Part Numbering is not selected in maintenance program, as well as saving preferences
+42/ Rewrite Router Browser
+43/ txtParentDescr_Change: change Bom description will set column DESCR_BP, not BOM_SEQ
+44/ Force user to Save the Bom after we click Commit (Router) to Bom button is to block the form,
+the Bomcompare will be open, and we wait until the BomCompare is closed to give the control back to the form. 
+This is done by adding the control structure Wait_For_PID working in combination with ShellExecSync
+45/ Reorganize button, anchor, add maximum char length to textboxes
+46/	Add button to hide Source grid, and bom tree
+47/ Add buttons to resize the left,right, and middle grid width
+48/ Fill the PL by dictionary PROD_LINES before generate the Bom XML (in BomCompare_Load sub) will roll back what user has input as PL in PL textbox. Should we remove this?
+49/ InvokeWaitDialog in duplicate will throw error in 2019.1 and crash. So must be extremely careful to invoke and close
+
+50/ Fixed: Description of Router will be pulled from core if Router exists. Likewise, Description of Bom. 
+This brings attention in case Router and Bom has the same part number, but the descriptions are different.
+
+51/ upload router will break if the router core screen is open
+52/ Make child grid (router grid) GV_Child multiselect = False. 
+53/ Modified DeleteLine sub for right click router grid
+54/ Add Highlight Sel. Row checkbox for turning and OptionsSelectionEnableAppearanceFocusedRow on/off. 
+Sometimes user does not want to see row highlighted which makes confusion
+
+55/ Enable_Disable_Router_Bom_PartHead. Router Part + Rev, Bom Part + Rev are enabled to enter existing router/bom. If you want to create new, use the New Router/BOM button
+56/ When right click adding Router as a component, get that Router header data, if there are not enough data for that router, get data from inventory
+=> will go back to this later
+
+57/ Redefine the next sequence generation at the NonInv form, occured in InsNonInventory and ddlSource_Change
+59/ Added NonInv form, Part & Rev lost focus
+60/ Fixed number 26#
+
+
+
+
