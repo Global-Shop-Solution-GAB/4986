@@ -1,0 +1,9 @@
+Program.Sub.Preflight.Start
+
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+f.Intrinsic.Control.End
+'This script is obsolete starting version 20.07.18.00
+Program.Sub.Main.End
+
